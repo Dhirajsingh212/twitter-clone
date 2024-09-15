@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TwitterIcon, AppleIcon } from "lucide-react";
+import { AppleIcon, TwitterIcon } from "lucide-react";
 
-export default function SignIn() {
+export default function SignUp() {
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <TwitterIcon className="mx-auto h-12 w-12 text-white" />
-          <h2 className="mt-6 text-3xl font-extrabold">Sign in to X</h2>
+          <h2 className="mt-6 text-3xl font-extrabold">Create your account</h2>
         </div>
         <Button className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200">
           <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
@@ -30,11 +30,11 @@ export default function SignIn() {
               d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"
             />
           </svg>
-          Sign in with Google
+          Sign up with Google
         </Button>
         <Button className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200">
           <AppleIcon className="h-5 w-5 mr-2" />
-          Sign in with Apple
+          Sign up with Apple
         </Button>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
@@ -47,16 +47,41 @@ export default function SignIn() {
         <form className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <Label htmlFor="email-username" className="sr-only">
-                Email or username
+              <Label htmlFor="name" className="sr-only">
+                Name
               </Label>
               <Input
-                id="email-username"
-                name="email-username"
+                id="name"
+                name="name"
                 type="text"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
-                placeholder="Email or username"
+                placeholder="Name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email" className="sr-only">
+                Email
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
+                placeholder="Email"
+              />
+            </div>
+            <div>
+              <Label htmlFor="dob" className="sr-only">
+                Date of Birth
+              </Label>
+              <Input
+                id="dob"
+                name="dob"
+                type="date"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
               />
             </div>
             <div>
@@ -79,27 +104,30 @@ export default function SignIn() {
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Sign in
+              Sign up
             </Button>
           </div>
         </form>
-        <div className="flex items-center justify-between">
-          <div className="text-sm">
-            <a
-              href="#"
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
-              Forgot password?
-            </a>
-          </div>
-          <div className="text-sm">
-            <a
-              href="#"
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
-              Sign up for X
-            </a>
-          </div>
+        <div className="text-xs text-gray-500">
+          By signing up, you agree to the{" "}
+          <a href="#" className="text-blue-600 hover:underline">
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a href="#" className="text-blue-600 hover:underline">
+            Privacy Policy
+          </a>
+          , including{" "}
+          <a href="#" className="text-blue-600 hover:underline">
+            Cookie Use
+          </a>
+          .
+        </div>
+        <div className="text-center text-sm">
+          <span className="text-gray-500">Already have an account?</span>{" "}
+          <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+            Sign in
+          </a>
         </div>
       </div>
     </div>

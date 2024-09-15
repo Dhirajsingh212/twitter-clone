@@ -3,6 +3,7 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
+import { NavbarMenu } from "./NavbarMenu";
 
 const LeftNavbar = () => {
   return (
@@ -39,14 +40,8 @@ const LeftNavbar = () => {
             Post
           </Button>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          aria-label="Menu"
-        >
-          <Menu className="h-6 w-6" />
-        </Button>
+
+        <NavbarMenu />
       </nav>
     </aside>
   );
