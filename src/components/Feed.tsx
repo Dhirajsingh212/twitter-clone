@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,8 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "next-auth/react";
 
 const Feed = () => {
+  const session = useSession();
+  console.log(session);
   return (
     <main className="lg:w-1/2 border-x border-y py-2 rounded-lg border-gray-200 dark:border-gray-800 px-4 ">
       <Tabs defaultValue="for-you" className="w-full">
@@ -50,15 +54,15 @@ const Feed = () => {
             </CardFooter>
           </Card>
           <div className="space-y-4 mt-4 ">
-            {[1, 2, 3].map((post) => (
+            {Array.from({ length: 50 }).map((post, index) => (
               <Card
-                key={post}
+                key={index}
                 className="bg-white dark:bg-black border-gray-200 dark:border-gray-800"
               >
-                <CardHeader className="flex space-x-4">
+                <CardHeader className="flex flex-row items-center space-x-4">
                   <Avatar>
                     <AvatarImage
-                      src={`https://i.pravatar.cc/150?img=${post}`}
+                      src={`https://i.pravatar.cc/150?img=${index}`}
                     />
                     <AvatarFallback>UN</AvatarFallback>
                   </Avatar>

@@ -4,6 +4,7 @@ import { importJWK, JWTPayload, SignJWT } from "jose";
 import NextAuth, { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 const generateJWT = async (payload: JWTPayload) => {
   const secret = process.env.JWT_SECRET || "Secr3t";
@@ -34,13 +35,17 @@ export interface session extends Session {
   user: {
     id: string;
     jwtToken: string;
-    role: string;
     email: string;
+    name: string;
   };
 }
 
 export default NextAuth({
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
     CredentialsProvider({
       name: "Email",
       credentials: {
@@ -54,7 +59,6 @@ export default NextAuth({
       },
       async authorize(credentials: any): Promise<user | null> {
         try {
-          console.log(credentials);
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
           const userDb = await prisma?.user.findFirst({
             where: {
@@ -65,8 +69,6 @@ export default NextAuth({
               id: true,
             },
           });
-          console.log(userDb);
-          console.log("reached 0");
           if (userDb && userDb.password) {
             if (
               !(await bcrypt.compare(credentials.password, userDb.password))
@@ -77,7 +79,6 @@ export default NextAuth({
               id: userDb.id,
             });
 
-            console.log("reached 1");
             return {
               id: JSON.stringify(userDb.id),
               email: credentials.email,
@@ -116,6 +117,23 @@ export default NextAuth({
       if (newSession.user && token.uid) {
         newSession.user.id = token.uid as string;
         newSession.user.jwtToken = token.jwtToken as string;
+        const checkUser = await prisma.user.findFirst({
+          where: {
+            email: newSession.user.email,
+          },
+        });
+        if (!checkUser) {
+          const newUser = await prisma.user.create({
+            data: {
+              email: newSession.user.email,
+              username: newSession.user.name,
+              password: "",
+            },
+          });
+          newSession.user.id = newUser.id.toString() as string;
+        } else {
+          newSession.user.id = checkUser.id.toString() as string;
+        }
       }
       return newSession!;
     },
