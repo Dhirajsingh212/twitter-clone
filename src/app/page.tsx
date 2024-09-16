@@ -1,14 +1,14 @@
+import SigninForm from "@/components/SigninForm";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { TwitterIcon, AppleIcon } from "lucide-react";
 
 export default function SignIn() {
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <TwitterIcon className="mx-auto h-12 w-12 text-white" />
+          <div className="mx-auto text-4xl text-white">
+            {process.env.NEXT_TWITTER_ICON}
+          </div>
           <h2 className="mt-6 text-3xl font-extrabold">Sign in to X</h2>
         </div>
         <Button className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200">
@@ -32,10 +32,7 @@ export default function SignIn() {
           </svg>
           Sign in with Google
         </Button>
-        <Button className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200">
-          <AppleIcon className="h-5 w-5 mr-2" />
-          Sign in with Apple
-        </Button>
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-700"></div>
@@ -44,57 +41,11 @@ export default function SignIn() {
             <span className="px-2 bg-black text-gray-500">Or</span>
           </div>
         </div>
-        <form className="mt-8 space-y-6">
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <Label htmlFor="email-username" className="sr-only">
-                Email or username
-              </Label>
-              <Input
-                id="email-username"
-                name="email-username"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
-                placeholder="Email or username"
-              />
-            </div>
-            <div>
-              <Label htmlFor="password" className="sr-only">
-                Password
-              </Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-black"
-                placeholder="Password"
-              />
-            </div>
-          </div>
-
-          <div>
-            <Button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Sign in
-            </Button>
-          </div>
-        </form>
-        <div className="flex items-center justify-between">
+        <SigninForm />
+        <div className="flex items-center justify-center">
           <div className="text-sm">
             <a
-              href="#"
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
-              Forgot password?
-            </a>
-          </div>
-          <div className="text-sm">
-            <a
-              href="#"
+              href="/signup"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Sign up for X

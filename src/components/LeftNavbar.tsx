@@ -1,19 +1,18 @@
 import { NavbarItems } from "@/resource";
-import { Menu } from "lucide-react";
 import Link from "next/link";
+import { NavbarMenu } from "./NavbarMenu";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
-import { NavbarMenu } from "./NavbarMenu";
 
 const LeftNavbar = () => {
   return (
     <aside className="lg:w-1/4 lg:pr-4 mb-4 lg:mb-0">
       <nav className="flex lg:flex-col justify-between lg:justify-start lg:space-y-4">
         <Link
-          href="/"
+          href="/feed"
           className="text-2xl font-bold flex flex-row justify-between lg:pl-8"
         >
-          𝕏
+          {process.env.NEXT_TWITTER_ICON}
           <div className="hidden lg:block">
             <ThemeToggleButton />
           </div>
