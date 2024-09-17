@@ -55,7 +55,16 @@ const SignupForm = () => {
   };
   return (
     <>
-      <Button className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200">
+      <Button
+        onClick={async () => {
+          await signIn("google", {
+            redirect: false,
+          });
+          toast.success("SignedIn successfully.");
+          router.push("/feed");
+        }}
+        className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200"
+      >
         <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
           <path
             fill="#EA4335"

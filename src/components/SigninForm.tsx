@@ -62,7 +62,15 @@ const SigninForm = () => {
     <>
       <Button
         onClick={async () => {
-          await signIn("google");
+          try {
+            await signIn("google", {
+              callbackUrl: "http://localhost:3000/feed",
+            });
+            toast.success("LoggedIn Successfully.");
+            router.push("/feed");
+          } catch (err) {
+            toast.error("Something went wrong.");
+          }
         }}
         className="w-full py-2 px-4 border border-transparent rounded-full font-medium bg-white text-black hover:bg-gray-200"
       >
