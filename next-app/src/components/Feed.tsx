@@ -9,19 +9,19 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Spinner from "./Spinner";
-import { useSession } from "next-auth/react";
 
 const Feed = () => {
-  const { data: session, status } = useSession();
-  console.log(session);
-  const [socket, setSocket] = useState<WebSocket | null>(null); // Initialize as null
+  const session = useSession();
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [postText, setPostText] = useState<string>("");
 
   useEffect(() => {
-    if (status === "authenticated") {
-      const token = (session?.user as any).jwtToken; // Use a more specific type if available
+    if (session.status === "authenticated") {
+      const token = ((session as any).data?.user as any).jwtToken;
       const newSocket = new WebSocket(
         `ws://localhost:8080?token=${encodeURIComponent(token)}`
       );
@@ -40,13 +40,17 @@ const Feed = () => {
       };
 
       return () => {
-        newSocket.close(); // Close the socket on cleanup
+        newSocket.close();
       };
     }
-  }, [(session.data?.user as any).jwtToken, status]); // Add dependencies
+  }, [session.status]);
 
-  if (status !== "authenticated") {
-    return <Spinner />;
+  if (session.status !== "authenticated") {
+    return (
+      <div className="flex h-screen w-full justify-center items-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (!socket) {
@@ -77,6 +81,10 @@ const Feed = () => {
                 </Avatar>
                 <Textarea
                   placeholder="What's happening?"
+                  value={postText}
+                  onChange={(e) => {
+                    setPostText(e.target.value);
+                  }}
                   className="resize-none focus-visible:ring-0 bg-gray-100 dark:bg-zinc-800 border-none"
                 />
               </div>
@@ -93,7 +101,17 @@ const Feed = () => {
                   📊
                 </Button>
               </div>
-              <Button>Post</Button>
+              <Button
+                onClick={() => {
+                  if (postText.length === 0) {
+                    toast.warning("post cannot be empty.");
+                    return;
+                  }
+                  socket.send(postText);
+                }}
+              >
+                Post
+              </Button>
             </CardFooter>
           </Card>
           <div className="space-y-4 mt-4 ">

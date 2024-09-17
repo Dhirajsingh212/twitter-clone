@@ -114,7 +114,6 @@ export default NextAuth({
   callbacks: {
     session: async ({ session, token }) => {
       const newSession: session = session as session;
-      console.log(token);
       if (newSession.user && token.uid) {
         newSession.user.id = token.uid as string;
         newSession.user.jwtToken = token.jwtToken as string;

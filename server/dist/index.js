@@ -52,7 +52,6 @@ wss.on("connection", function connection(ws, request) {
         ws.close();
     }
     try {
-        console.log(accessToken);
         const decoded = (0, utils_1.verifyToken)(accessToken);
         console.log(decoded);
         addClient({ ws, id: decoded.id });

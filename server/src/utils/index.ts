@@ -1,10 +1,19 @@
 import bcrypt from "bcryptjs";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { importJWK, jwtVerify } from "jose";
 
-export function verifyToken(token: string): JwtPayload | string {
-  const decoded = jwt.verify(token, process.env.SECRET!);
-  return decoded;
-}
+export const verifyJWT = async (token: string, secret: any) => {
+  try {
+    const jwk = await importJWK({ k: secret, alg: "HS256", kty: "oct" });
+
+    const { payload } = await jwtVerify(token, jwk, {
+      algorithms: ["HS256"],
+    });
+
+    return payload;
+  } catch (error) {
+    throw new Error("Token verification failed");
+  }
+};
 
 export async function verifyHashedPassword(
   password: string,

@@ -6,7 +6,7 @@ import http, { IncomingMessage } from "http";
 import morgan from "morgan";
 import { createClient } from "redis";
 import { WebSocket, WebSocketServer } from "ws";
-import { verifyToken } from "./utils";
+import { verifyJWT } from "./utils";
 
 const redisClient = createClient({
   url: process.env.REDIS_URL || "",
@@ -26,10 +26,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
-  res.send("Work fine");
-});
-
 const server = http.createServer(app);
 const wss = new WebSocketServer({ noServer: true });
 
@@ -46,30 +42,24 @@ function addClient(client: Client) {
 
 wss.on(
   "connection",
-  function connection(ws: WebSocket, request: IncomingMessage) {
+  async function connection(ws: WebSocket, request: IncomingMessage) {
     ws.on("error", console.error);
 
-    const token = (request.headers as any).cookie;
-    const regex = /next-auth.session-token=([^;]+)/;
-
-    const match = token.match(regex);
-    const accessToken = match ? match[1] : null;
+    const url = request.url || " ";
+    const accessToken = url.split("token=")[1];
 
     if (!accessToken) {
       ws.close();
     }
 
     try {
-      const decoded = verifyToken(accessToken);
-      console.log(decoded);
+      const decoded = await verifyJWT(accessToken, process.env.SECRET);
       addClient({ ws, id: (decoded as any).id });
 
       ws.on("message", function message(data, isBinary) {
         clientsMap.forEach(async function each(client: any) {
-          const parsedData = JSON.parse(data.toString("utf-8"));
-          parsedData.fromId = (decoded as any).id;
           if (client.ws.readyState == WebSocket.OPEN) {
-            client.ws.send(JSON.stringify(parsedData), { binary: isBinary });
+            client.ws.send(data, { binary: isBinary });
           }
         });
       });
