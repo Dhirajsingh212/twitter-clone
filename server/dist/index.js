@@ -33,9 +33,6 @@ app.use((0, cors_1.default)({
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
-app.get("/", (req, res) => {
-    res.send("Work fine");
-});
 const server = http_1.default.createServer(app);
 const wss = new ws_1.WebSocketServer({ noServer: true });
 let clientsMap = new Map();
@@ -43,34 +40,31 @@ function addClient(client) {
     clientsMap.set(client.id, client);
 }
 wss.on("connection", function connection(ws, request) {
-    ws.on("error", console.error);
-    const token = request.headers.cookie;
-    const regex = /next-auth.session-token=([^;]+)/;
-    const match = token.match(regex);
-    const accessToken = match ? match[1] : null;
-    if (!accessToken) {
-        ws.close();
-    }
-    try {
-        const decoded = (0, utils_1.verifyToken)(accessToken);
-        console.log(decoded);
-        addClient({ ws, id: decoded.id });
-        ws.on("message", function message(data, isBinary) {
-            clientsMap.forEach(function each(client) {
-                return __awaiter(this, void 0, void 0, function* () {
-                    const parsedData = JSON.parse(data.toString("utf-8"));
-                    parsedData.fromId = decoded.id;
-                    if (client.ws.readyState == ws_1.WebSocket.OPEN) {
-                        client.ws.send(JSON.stringify(parsedData), { binary: isBinary });
-                    }
+    return __awaiter(this, void 0, void 0, function* () {
+        ws.on("error", console.error);
+        const url = request.url || " ";
+        const accessToken = url.split("token=")[1];
+        if (!accessToken) {
+            ws.close();
+        }
+        try {
+            const decoded = yield (0, utils_1.verifyJWT)(accessToken, process.env.SECRET);
+            addClient({ ws, id: decoded.id });
+            ws.on("message", function message(data, isBinary) {
+                clientsMap.forEach(function each(client) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        if (client.ws.readyState == ws_1.WebSocket.OPEN) {
+                            client.ws.send(data, { binary: isBinary });
+                        }
+                    });
                 });
             });
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
-    ws.send("connected through websocket");
+        }
+        catch (err) {
+            console.log(err);
+        }
+        ws.send("connected through websocket");
+    });
 });
 server.on("upgrade", (request, socket, head) => {
     wss.handleUpgrade(request, socket, head, (ws) => {

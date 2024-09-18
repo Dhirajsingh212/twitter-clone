@@ -14,10 +14,19 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Spinner from "./Spinner";
 
-const Feed = () => {
+interface Post {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+}
+
+const Feed = ({ dbPosts }: { dbPosts: any }) => {
   const session = useSession();
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [postText, setPostText] = useState<string>("");
+  const [allPosts, setAllPosts] = useState<Post[]>([...dbPosts]);
 
   useEffect(() => {
     if (session.status === "authenticated") {
@@ -32,7 +41,10 @@ const Feed = () => {
       };
 
       newSocket.onmessage = (message) => {
-        console.log(message.data);
+        const parsedData = JSON.parse(message.data || "");
+        setAllPosts((prev) => {
+          return [parsedData, ...prev];
+        });
       };
 
       newSocket.onclose = (event) => {
@@ -108,6 +120,8 @@ const Feed = () => {
                     return;
                   }
                   socket.send(postText);
+                  toast.success("Message posted.");
+                  setPostText("");
                 }}
               >
                 Post
@@ -115,7 +129,7 @@ const Feed = () => {
             </CardFooter>
           </Card>
           <div className="space-y-4 mt-4 ">
-            {Array.from({ length: 50 }).map((post, index) => (
+            {allPosts.map((post, index) => (
               <Card
                 key={index}
                 className="bg-white dark:bg-black border-gray-200 dark:border-gray-800"
@@ -135,10 +149,7 @@ const Feed = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p>
-                    This is a sample post content. It can be much longer and may
-                    include hashtags or mentions.
-                  </p>
+                  <p>{post.content}</p>
                 </CardContent>
                 <CardFooter className="flex justify-between">
                   <Button variant="ghost" size="sm">

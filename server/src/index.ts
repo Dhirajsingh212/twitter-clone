@@ -7,6 +7,7 @@ import morgan from "morgan";
 import { createClient } from "redis";
 import { WebSocket, WebSocketServer } from "ws";
 import { verifyJWT } from "./utils";
+import { SaveToDB } from "./db/query";
 
 const redisClient = createClient({
   url: process.env.REDIS_URL || "",
@@ -58,16 +59,21 @@ wss.on(
 
       ws.on("message", function message(data, isBinary) {
         clientsMap.forEach(async function each(client: any) {
+          console.log(data.toString());
           if (client.ws.readyState == WebSocket.OPEN) {
-            client.ws.send(data, { binary: isBinary });
+            const newPost = await SaveToDB(
+              Number((decoded as any).id),
+              data.toString()
+            );
+            if (newPost) {
+              client.ws.send(JSON.stringify(newPost), { binary: isBinary });
+            }
           }
         });
       });
     } catch (err) {
       console.log(err);
     }
-
-    ws.send("connected through websocket");
   }
 );
 

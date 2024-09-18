@@ -12,14 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = verifyToken;
+exports.verifyJWT = void 0;
 exports.verifyHashedPassword = verifyHashedPassword;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-function verifyToken(token) {
-    const decoded = jsonwebtoken_1.default.verify(token, process.env.SECRET);
-    return decoded;
-}
+const jose_1 = require("jose");
+const verifyJWT = (token, secret) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const jwk = yield (0, jose_1.importJWK)({ k: secret, alg: "HS256", kty: "oct" });
+        const { payload } = yield (0, jose_1.jwtVerify)(token, jwk, {
+            algorithms: ["HS256"],
+        });
+        return payload;
+    }
+    catch (error) {
+        throw new Error("Token verification failed");
+    }
+});
+exports.verifyJWT = verifyJWT;
 function verifyHashedPassword(password, dbpassword) {
     return __awaiter(this, void 0, void 0, function* () {
         const correct = yield bcryptjs_1.default.compare(password, dbpassword);
