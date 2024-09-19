@@ -21,6 +21,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const redis_1 = require("redis");
 const ws_1 = require("ws");
 const utils_1 = require("./utils");
+const query_1 = require("./db/query");
 const redisClient = (0, redis_1.createClient)({
     url: process.env.REDIS_URL || "",
 });
@@ -53,8 +54,12 @@ wss.on("connection", function connection(ws, request) {
             ws.on("message", function message(data, isBinary) {
                 clientsMap.forEach(function each(client) {
                     return __awaiter(this, void 0, void 0, function* () {
+                        console.log(data.toString());
                         if (client.ws.readyState == ws_1.WebSocket.OPEN) {
-                            client.ws.send(data, { binary: isBinary });
+                            const newPost = yield (0, query_1.SaveToDB)(Number(decoded.id), data.toString());
+                            if (newPost) {
+                                client.ws.send(JSON.stringify(newPost), { binary: isBinary });
+                            }
                         }
                     });
                 });
@@ -63,7 +68,6 @@ wss.on("connection", function connection(ws, request) {
         catch (err) {
             console.log(err);
         }
-        ws.send("connected through websocket");
     });
 });
 server.on("upgrade", (request, socket, head) => {
