@@ -1,23 +1,13 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  ChartNoAxesColumnIncreasing,
-  Heart,
-  MessageCircle,
-  Share2,
-} from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import PostsCard from "./PostsCard";
 import Spinner from "./Spinner";
 
 interface Post {
@@ -139,42 +129,15 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
           </Card>
           <div className="space-y-4 mt-4 ">
             {allPosts.map((post, index) => (
-              <Card
+              <PostsCard
                 key={index}
-                className="bg-white dark:bg-black border-gray-200 dark:border-gray-800"
-              >
-                <CardHeader className="flex flex-row items-center space-x-4">
-                  <Avatar>
-                    <AvatarImage
-                      src={`https://i.pravatar.cc/150?img=${index}`}
-                    />
-                    <AvatarFallback>UN</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">{post.user.username}</p>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p>{post.content}</p>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="ghost" size="sm">
-                    <MessageCircle size={18} />
-                    <span className="pl-2">3</span>
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Heart size={18} />
-                    <span className="pl-2">5</span>
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <ChartNoAxesColumnIncreasing size={18} />
-                    <span className="pl-2">2.6K</span>
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Share2 size={18} />
-                  </Button>
-                </CardFooter>
-              </Card>
+                id={post.id}
+                user={post.user}
+                content={post.content}
+                createdAt={post.createdAt}
+                updatedAt={post.updatedAt}
+                userId={post.userId}
+              />
             ))}
           </div>
         </TabsContent>
