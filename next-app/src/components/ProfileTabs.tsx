@@ -1,39 +1,18 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { formatDateToHrsAgo } from "@/lib/date";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { useState } from "react";
 
-const mockTweets = [
-  {
-    id: 1,
-    content:
-      "Just launched a new project! Check it out at example.com #webdev #launch",
-    likes: 150,
-    reposts: 50,
-    replies: 25,
-    timestamp: "2h",
-  },
-  {
-    id: 2,
-    content:
-      "Excited to speak at the upcoming tech conference next month! Who else is going? #techconf",
-    likes: 200,
-    reposts: 75,
-    replies: 40,
-    timestamp: "5h",
-  },
-  {
-    id: 3,
-    content:
-      "Learning a new programming language is always an adventure. Currently diving into Rust! #coding #rust",
-    likes: 180,
-    reposts: 60,
-    replies: 30,
-    timestamp: "1d",
-  },
-];
+interface Posts {
+  id: number;
+  content: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  userId: number;
+}
 
-const ProfileTabs = () => {
+const ProfileTabs = ({ posts }: { posts: Posts[] }) => {
   const [activeTab, setActiveTab] = useState("posts");
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
@@ -53,25 +32,25 @@ const ProfileTabs = () => {
       </TabsList>
       <TabsContent value="posts" className="p-4">
         <div className="space-y-4">
-          {mockTweets.map((tweet) => (
+          {posts.map((tweet: Posts) => (
             <div
               key={tweet.id}
               className="px-2 border-b border-gray-200 dark:border-gray-700 pb-4"
             >
               <p>{tweet.content}</p>
               <div className="mt-2 text-gray-500 dark:text-gray-400 flex items-center justify-between">
-                <span>{tweet.timestamp}</span>
+                <span>{formatDateToHrsAgo(tweet.createdAt)}</span>
                 <div className="flex space-x-4">
                   <button
                     className="flex items-center space-x-1"
                     onClick={() => {}}
                   >
                     <MessageCircle size={18} />
-                    <span>{tweet.replies}</span>
+                    <span>replies</span>
                   </button>
                   <button className="flex items-center space-x-1">
                     <Heart size={18} />
-                    <span>{tweet.likes}</span>
+                    <span>likes</span>
                   </button>
                   <button
                     className="flex items-center space-x-1"

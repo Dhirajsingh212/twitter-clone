@@ -1,5 +1,49 @@
 "use server";
 import prisma from "@/db/db";
+import { revalidatePath } from "next/cache";
+
+// ************************USERS**********************************//
+
+export async function fetchUserDetails(email: string) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    return user;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+export async function updateBio(
+  id: number,
+  bio: string,
+  location: string,
+  link: string
+) {
+  try {
+    await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        bio,
+        location,
+        link,
+      },
+    });
+    revalidatePath("/profile");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// **************************************************************//
+
+// ************************TWEET**********************************//
 
 export async function fetchPosts() {
   try {
@@ -15,16 +59,31 @@ export async function fetchPosts() {
   }
 }
 
-export async function fetchUserDetails(email: string) {
+export async function fetchUserAllPost(email: string) {
   try {
-    const user = await prisma.user.findFirst({
+    const userDetails = await prisma.user.findFirst({
       where: {
-        email: email,
+        email,
       },
     });
-    return user;
+
+    const userPosts = await prisma.tweet.findMany({
+      where: {
+        userId: userDetails?.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return userPosts || [];
   } catch (err) {
     console.log(err);
-    return null;
+    return [];
   }
 }
+
+// **************************************************************//
+
+// ************************COMMENTS**********************************//
+// **************************************************************//

@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import NextAuth from "@/lib/auth";
 import ProfileBioDialog from "@/components/ProfileBioDialog";
 import { redirect } from "next/navigation";
-import { fetchUserDetails } from "@/actions";
+import { fetchUserAllPost, fetchUserDetails } from "@/actions";
 import { formatDateString } from "@/lib/date";
 
 export default async function FullXProfile() {
@@ -17,6 +17,7 @@ export default async function FullXProfile() {
   }
 
   const userDetails = await fetchUserDetails((session as any).user.email);
+  const userPosts = await fetchUserAllPost((session as any).user.email);
 
   return (
     <div className="max-h-[90vh] no-scrollbar overflow-y-scroll  text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -38,7 +39,11 @@ export default async function FullXProfile() {
           {/* Profile Info */}
           <div className="mt-16 px-4">
             <div className="flex justify-end mb-4">
-              <ProfileBioDialog />
+              <ProfileBioDialog
+                bio={(userDetails && userDetails.bio) || ""}
+                location={(userDetails && userDetails.location) || ""}
+                link={(userDetails && userDetails.link) || ""}
+              />
             </div>
             <h1 className="text-xl font-bold">
               {userDetails && userDetails.username}
@@ -57,7 +62,11 @@ export default async function FullXProfile() {
               {userDetails && userDetails.link && (
                 <div className="flex items-center mr-4">
                   <LinkIcon className="w-4 h-4 mr-1" />
-                  <a href="#" className="text-blue-500 dark:text-blue-400">
+                  <a
+                    href={`${userDetails.link}`}
+                    target="_blank"
+                    className="text-blue-500 dark:text-blue-400"
+                  >
                     {userDetails.link}
                   </a>
                 </div>
@@ -85,7 +94,7 @@ export default async function FullXProfile() {
           </div>
 
           {/* Tabs */}
-          <ProfileTabs />
+          <ProfileTabs posts={userPosts} />
         </div>
       </div>
     </div>
