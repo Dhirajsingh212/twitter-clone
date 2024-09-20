@@ -9,6 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  ChartNoAxesColumnIncreasing,
+  Heart,
+  MessageCircle,
+  Share2,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -16,6 +22,9 @@ import Spinner from "./Spinner";
 
 interface Post {
   id: number;
+  user: {
+    username: string;
+  };
   content: string;
   createdAt: string;
   updatedAt: string;
@@ -142,10 +151,7 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
                     <AvatarFallback>UN</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold">User Name</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      @username
-                    </p>
+                    <p className="font-semibold">{post.user.username}</p>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -153,19 +159,19 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
                 </CardContent>
                 <CardFooter className="flex justify-between">
                   <Button variant="ghost" size="sm">
-                    💬 3
+                    <MessageCircle size={18} />
+                    <span className="pl-2">3</span>
                   </Button>
                   <Button variant="ghost" size="sm">
-                    🔁 5
+                    <Heart size={18} />
+                    <span className="pl-2">5</span>
                   </Button>
                   <Button variant="ghost" size="sm">
-                    ❤️ 10
+                    <ChartNoAxesColumnIncreasing size={18} />
+                    <span className="pl-2">2.6K</span>
                   </Button>
                   <Button variant="ghost" size="sm">
-                    📊 2.5K
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    📤
+                    <Share2 size={18} />
                   </Button>
                 </CardFooter>
               </Card>

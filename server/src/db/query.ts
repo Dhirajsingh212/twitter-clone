@@ -18,6 +18,18 @@ export async function SaveToDB(
         userId: id,
         content: message,
       },
+      select: {
+        userId: true,
+        content: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
     return newPost;
   } catch (err) {

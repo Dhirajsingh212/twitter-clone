@@ -32,6 +32,7 @@ const ProfileTabs = ({ posts }: { posts: Posts[] }) => {
       </TabsList>
       <TabsContent value="posts" className="p-4">
         <div className="space-y-4">
+          {posts.length === 0 && <p>No posts found.</p>}
           {posts.map((tweet: Posts) => (
             <div
               key={tweet.id}

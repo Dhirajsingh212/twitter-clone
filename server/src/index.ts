@@ -57,14 +57,13 @@ wss.on(
       const decoded = await verifyJWT(accessToken, process.env.SECRET);
       addClient({ ws, id: (decoded as any).id });
 
-      ws.on("message", function message(data, isBinary) {
-        clientsMap.forEach(async function each(client: any) {
-          console.log(data.toString());
+      ws.on("message", async function message(data, isBinary) {
+        const newPost = await SaveToDB(
+          Number((decoded as any).id),
+          data.toString()
+        );
+        clientsMap.forEach(function each(client: any) {
           if (client.ws.readyState == WebSocket.OPEN) {
-            const newPost = await SaveToDB(
-              Number((decoded as any).id),
-              data.toString()
-            );
             if (newPost) {
               client.ws.send(JSON.stringify(newPost), { binary: isBinary });
             }

@@ -51,6 +51,18 @@ export async function fetchPosts() {
       orderBy: {
         createdAt: "desc",
       },
+      select: {
+        userId: true,
+        content: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
     return allPosts;
   } catch (err) {

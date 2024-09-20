@@ -20,7 +20,7 @@ export default async function FullXProfile() {
   const userPosts = await fetchUserAllPost((session as any).user.email);
 
   return (
-    <div className="max-h-[90vh] no-scrollbar overflow-y-scroll  text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <div className="max-h-[90vh]  no-scrollbar overflow-y-scroll  text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <div className="max-w-6xl mx-auto flex">
         <div className="flex-grow max-w-2xl p-4">
           <div className="relative">
@@ -52,7 +52,7 @@ export default async function FullXProfile() {
               {userDetails && userDetails.email}
             </p>
             <p className="mt-2">{userDetails && userDetails.bio}</p>
-            <div className="flex flex-wrap gap-y-2 mt-2 text-gray-500 dark:text-gray-400">
+            <div className="w-screen flex flex-wrap gap-y-2 mt-2 text-gray-500 dark:text-gray-400">
               {userDetails && userDetails.location && (
                 <div className="flex items-center mr-4">
                   <MapPinIcon className="w-4 h-4 mr-1" />
