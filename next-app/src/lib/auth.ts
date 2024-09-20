@@ -112,7 +112,7 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET || "Secr3t",
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token, user }) => {
       const newSession: session = session as session;
       if (newSession.user && token.uid) {
         newSession.user.id = token.uid as string;

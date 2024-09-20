@@ -14,3 +14,17 @@ export async function fetchPosts() {
     return [];
   }
 }
+
+export async function fetchUserDetails(email: string) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    return user;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
