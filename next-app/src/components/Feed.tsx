@@ -32,6 +32,10 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
   const [allPosts, setAllPosts] = useState<Post[]>([...dbPosts]);
 
   useEffect(() => {
+    setAllPosts([...dbPosts]);
+  }, [dbPosts]);
+
+  useEffect(() => {
     if (session.status === "authenticated") {
       const token = ((session as any).data?.user as any).jwtToken;
       const newSocket = new WebSocket(
