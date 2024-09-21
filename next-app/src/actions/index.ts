@@ -98,4 +98,26 @@ export async function fetchUserAllPost(email: string) {
 // **************************************************************//
 
 // ************************COMMENTS**********************************//
+
+export async function postComment(
+  userId: number,
+  postId: number,
+  comment: string
+) {
+  try {
+    await prisma.comment.create({
+      data: {
+        content: comment,
+        tweetId: postId,
+        userId: userId,
+      },
+    });
+
+    return true;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 // **************************************************************//

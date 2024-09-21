@@ -1,11 +1,11 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ResponseObj } from "@/types";
 import { useState } from "react";
 import Spinner from "./Spinner";
@@ -25,6 +25,7 @@ const SignupForm = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const session = useSession();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -61,6 +62,10 @@ const SignupForm = () => {
       setIsLoading(false);
     }
   };
+
+  if (session.status === "authenticated") {
+    redirect("/feed");
+  }
 
   return (
     <>

@@ -7,12 +7,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
-import {
-  ChartNoAxesColumnIncreasing,
-  Heart,
-  MessageCircle,
-  Share2,
-} from "lucide-react";
+import { ChartNoAxesColumnIncreasing, Heart, Share2 } from "lucide-react";
+import CommentDialog from "./CommentDialog";
 
 interface Post {
   id: number;
@@ -52,10 +48,7 @@ const PostsCard = ({
         <p>{content}</p>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="ghost" size="sm">
-          <MessageCircle size={18} />
-          <span className="pl-2">3</span>
-        </Button>
+        <CommentDialog postId={id} />
         <Button variant="ghost" size="sm">
           <Heart size={18} />
           <span className="pl-2">5</span>
