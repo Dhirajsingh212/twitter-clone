@@ -61,7 +61,7 @@ const SigninForm = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={async () => {
           try {
             await signIn("google", {
@@ -94,15 +94,15 @@ const SigninForm = () => {
           />
         </svg>
         Sign in with Google
-      </Button>
+      </Button> */}
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-gray-700"></div>
         </div>
-        <div className="relative flex justify-center text-sm">
+        {/* <div className="relative flex justify-center text-sm">
           <span className="px-2 bg-black text-gray-500">Or</span>
-        </div>
+        </div> */}
       </div>
       <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-md shadow-sm -space-y-px">
