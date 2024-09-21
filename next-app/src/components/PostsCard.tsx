@@ -11,6 +11,7 @@ import { ChartNoAxesColumnIncreasing, Share2 } from "lucide-react";
 import Link from "next/link";
 import CommentDialog from "./CommentDialog";
 import LikeButton from "./LikeButton";
+import SessionCheck from "./SessionCheck";
 
 interface Post {
   id: number;
@@ -54,15 +55,17 @@ const PostsCard = ({
         </CardContent>
       </Link>
       <CardFooter className="flex justify-between">
-        <CommentDialog postId={id} commentCount={_count.comments} />
-        <LikeButton postId={id} likeCount={_count.likes} />
-        <Button variant="ghost" size="sm">
-          <ChartNoAxesColumnIncreasing size={18} />
-          <span className="pl-2">2.6K</span>
-        </Button>
-        <Button variant="ghost" size="sm">
-          <Share2 size={18} />
-        </Button>
+        <SessionCheck>
+          <CommentDialog postId={id} commentCount={_count.comments} />
+          <LikeButton postId={id} likeCount={_count.likes} />
+          <Button variant="ghost" size="sm">
+            <ChartNoAxesColumnIncreasing size={18} />
+            <span className="pl-2">2.6K</span>
+          </Button>
+          <Button variant="ghost" size="sm">
+            <Share2 size={18} />
+          </Button>
+        </SessionCheck>
       </CardFooter>
     </Card>
   );

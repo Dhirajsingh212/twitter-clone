@@ -25,7 +25,6 @@ const SignupForm = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const session = useSession();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -62,10 +61,6 @@ const SignupForm = () => {
       setIsLoading(false);
     }
   };
-
-  if (session.status === "authenticated") {
-    redirect("/feed");
-  }
 
   return (
     <>

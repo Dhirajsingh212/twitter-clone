@@ -1,6 +1,7 @@
 import { fetchSinglePostById } from "@/actions";
 import CommentDialog from "@/components/CommentDialog";
 import LikeButton from "@/components/LikeButton";
+import SessionCheck from "@/components/SessionCheck";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,35 +11,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
-import {
-  HeartIcon,
-  MessageCircleIcon,
-  RepeatIcon,
-  ShareIcon,
-} from "lucide-react";
-
-const comments = [
-  {
-    id: "1",
-    author: {
-      name: "Alice Smith",
-      username: "alicesmith",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    content: "Congratulations! 🎊 What was the breakthrough?",
-    timestamp: "1h ago",
-  },
-  {
-    id: "2",
-    author: {
-      name: "Bob Johnson",
-      username: "bobjohnson",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-    content: `That's awesome! Keep up the great work! 💪`,
-    timestamp: "30m ago",
-  },
-];
+import { RepeatIcon, ShareIcon } from "lucide-react";
 
 export default async function PostPage({
   params,
@@ -46,7 +19,6 @@ export default async function PostPage({
   params: { id: string[] };
 }) {
   const singlePost = await fetchSinglePostById(Number(params.id[0]));
-  console.log(singlePost);
 
   return (
     <div className="container max-w-2xl mx-auto p-4 h-[90vh] overflow-y-scroll no-scrollbar">
@@ -74,25 +46,27 @@ export default async function PostPage({
           <p className="text-xl mb-4">{singlePost && singlePost.content}</p>
         </CardContent>
         <CardFooter className="flex justify-between">
-          {singlePost && (
-            <LikeButton
-              postId={singlePost?.id}
-              likeCount={singlePost?._count.likes}
-            />
-          )}
-          {singlePost && (
-            <CommentDialog
-              postId={singlePost.id}
-              commentCount={singlePost._count.comments}
-            />
-          )}
-          <Button variant="ghost" size="sm">
-            <RepeatIcon className="w-4 h-4 mr-2" />
-            20
-          </Button>
-          <Button variant="ghost" size="sm">
-            <ShareIcon className="w-4 h-4" />
-          </Button>
+          <SessionCheck>
+            {singlePost && (
+              <LikeButton
+                postId={singlePost?.id}
+                likeCount={singlePost?._count.likes}
+              />
+            )}
+            {singlePost && (
+              <CommentDialog
+                postId={singlePost.id}
+                commentCount={singlePost._count.comments}
+              />
+            )}
+            <Button variant="ghost" size="sm">
+              <RepeatIcon className="w-4 h-4 mr-2" />
+              20
+            </Button>
+            <Button variant="ghost" size="sm">
+              <ShareIcon className="w-4 h-4" />
+            </Button>
+          </SessionCheck>
         </CardFooter>
       </Card>
 

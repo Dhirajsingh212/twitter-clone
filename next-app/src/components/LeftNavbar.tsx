@@ -6,6 +6,8 @@ import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import LogoutButton from "./LogoutButton";
+import SessionCheck from "./SessionCheck";
 
 const LeftNavbar = () => {
   const pathName = usePathname();
@@ -21,22 +23,49 @@ const LeftNavbar = () => {
         <div className="hidden lg:block space-y-4">
           {NavbarItems.map((element, index) => {
             const isTrue = pathName === element.Link ? true : false;
-            return (
-              <Link
-                key={index}
-                className={cn(
-                  "hover:text-blue-500  transition duration-200 w-full justify-start items-center flex flex-row gap-4 text-xl  rounded-full",
-                  {
-                    "text-blue-500": isTrue,
-                  }
-                )}
-                href={element.Link || "/feed"}
-              >
-                {element.icon}
-                {element.text}
-              </Link>
-            );
+            if (
+              element.text === "Profile" ||
+              element.text === "Messages" ||
+              element.text === "Bookmarks" ||
+              element.text === "Settings"
+            ) {
+              return (
+                <SessionCheck>
+                  <Link
+                    key={index}
+                    className={cn(
+                      "hover:text-blue-500  transition duration-200 w-full justify-start items-center flex flex-row gap-4 text-xl  rounded-full",
+                      {
+                        "text-blue-500": isTrue,
+                      }
+                    )}
+                    href={element.Link || "/feed"}
+                  >
+                    {element.icon}
+                    {element.text}
+                  </Link>
+                </SessionCheck>
+              );
+            } else {
+              return (
+                <Link
+                  key={index}
+                  className={cn(
+                    "hover:text-blue-500  transition duration-200 w-full justify-start items-center flex flex-row gap-4 text-xl  rounded-full",
+                    {
+                      "text-blue-500": isTrue,
+                    }
+                  )}
+                  href={element.Link || "/feed"}
+                >
+                  {element.icon}
+                  {element.text}
+                </Link>
+              );
+            }
           })}
+
+          <LogoutButton />
 
           <Link href="/feed">
             <Button
