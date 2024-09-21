@@ -7,8 +7,10 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
-import { ChartNoAxesColumnIncreasing, Heart, Share2 } from "lucide-react";
+import { ChartNoAxesColumnIncreasing, Share2 } from "lucide-react";
+import Link from "next/link";
 import CommentDialog from "./CommentDialog";
+import LikeButton from "./LikeButton";
 
 interface Post {
   id: number;
@@ -19,6 +21,10 @@ interface Post {
   createdAt: string | Date;
   updatedAt: string | Date;
   userId: number;
+  _count: {
+    comments: number;
+    likes: number;
+  };
 }
 
 const PostsCard = ({
@@ -28,31 +34,28 @@ const PostsCard = ({
   createdAt,
   updatedAt,
   userId,
+  _count,
 }: Post) => {
   return (
-    <Card
-      key={id}
-      className="bg-white dark:bg-black border-gray-200 dark:border-gray-800"
-    >
-      <CardHeader className="flex flex-row items-center space-x-4">
-        <Avatar>
-          <AvatarImage src={`https://i.pravatar.cc/150?img=${id}`} />
-          <AvatarFallback>UN</AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="font-semibold">{user.username}</p>
-          <p className="text-gray-400">{formatDateToHrsAgo(createdAt)}</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p>{content}</p>
-      </CardContent>
+    <Card key={id} className="my-4  border-gray-200 dark:border-gray-800">
+      <Link href={`/feed/${id}`}>
+        <CardHeader className="flex flex-row items-center space-x-4">
+          <Avatar>
+            <AvatarImage src={`https://i.pravatar.cc/150?img=${id}`} />
+            <AvatarFallback>UN</AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="font-semibold">{user.username}</p>
+            <p className="text-gray-400">{formatDateToHrsAgo(createdAt)}</p>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p>{content}</p>
+        </CardContent>
+      </Link>
       <CardFooter className="flex justify-between">
-        <CommentDialog postId={id} />
-        <Button variant="ghost" size="sm">
-          <Heart size={18} />
-          <span className="pl-2">5</span>
-        </Button>
+        <CommentDialog postId={id} commentCount={_count.comments} />
+        <LikeButton postId={id} likeCount={_count.likes} />
         <Button variant="ghost" size="sm">
           <ChartNoAxesColumnIncreasing size={18} />
           <span className="pl-2">2.6K</span>

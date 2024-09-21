@@ -29,6 +29,12 @@ export async function SaveToDB(
             username: true,
           },
         },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
       },
     });
     return newPost;

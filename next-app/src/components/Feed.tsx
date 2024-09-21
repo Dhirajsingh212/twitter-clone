@@ -19,6 +19,10 @@ interface Post {
   createdAt: string;
   updatedAt: string;
   userId: number;
+  _count: {
+    comments: number;
+    likes: number;
+  };
 }
 
 const Feed = ({ dbPosts }: { dbPosts: any }) => {
@@ -35,7 +39,7 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
       );
 
       newSocket.onopen = () => {
-        toast.success("Connection established.");
+        // toast.success("Connection established.");
         setSocket(newSocket);
       };
 
@@ -47,7 +51,7 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
       };
 
       newSocket.onclose = (event) => {
-        toast.error("Disconnected. Please reload the page.");
+        // toast.error("Disconnected. Please reload the page.");
       };
 
       return () => {
@@ -137,6 +141,7 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
                 createdAt={post.createdAt}
                 updatedAt={post.updatedAt}
                 userId={post.userId}
+                _count={post._count}
               />
             ))}
           </div>

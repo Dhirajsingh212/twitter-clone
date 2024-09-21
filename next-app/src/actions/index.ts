@@ -62,6 +62,12 @@ export async function fetchPosts() {
             username: true,
           },
         },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
       },
     });
     return allPosts;
@@ -83,6 +89,24 @@ export async function fetchUserAllPost(email: string) {
       where: {
         userId: userDetails?.id,
       },
+      select: {
+        userId: true,
+        content: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -92,6 +116,52 @@ export async function fetchUserAllPost(email: string) {
   } catch (err) {
     console.log(err);
     return [];
+  }
+}
+
+export async function fetchSinglePostById(postId: number) {
+  try {
+    const singlePost = await prisma.tweet.findFirst({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+        comments: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          select: {
+            content: true,
+            createdAt: true,
+            id: true,
+            user: {
+              select: {
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return singlePost;
+  } catch (err) {
+    console.log(err);
+    return null;
   }
 }
 
@@ -113,10 +183,75 @@ export async function postComment(
       },
     });
 
+    revalidatePath("/feed");
+    revalidatePath("/profile");
+
     return true;
   } catch (err) {
     console.log(err);
+    revalidatePath("/feed");
+    revalidatePath("/profile");
     return null;
+  }
+}
+
+// **************************************************************//
+
+// ************************LIKES**********************************//
+
+export async function isLikedByUser(userId: number, postId: number) {
+  try {
+    const likedByUser = await prisma.like.findFirst({
+      where: {
+        userId,
+        tweetId: postId,
+      },
+    });
+
+    if (likedByUser) {
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+export async function tweetLike(userId: number, postId: number) {
+  try {
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userId,
+        tweetId: postId,
+      },
+    });
+    if (existingLike) {
+      await prisma.like.deleteMany({
+        where: {
+          userId,
+          tweetId: postId,
+        },
+      });
+      revalidatePath("/feed");
+      revalidatePath("/profile");
+      return false;
+    }
+    await prisma.like.create({
+      data: {
+        userId,
+        tweetId: postId,
+      },
+    });
+    revalidatePath("/feed");
+    revalidatePath("/profile");
+
+    return true;
+  } catch (err) {
+    console.log(err);
+    revalidatePath("/feed");
+    revalidatePath("/profile");
+    return false;
   }
 }
 

@@ -38,12 +38,14 @@ const LeftNavbar = () => {
             );
           })}
 
-          <Button
-            className="w-full  bg-blue-600 hover:bg-blue-500 text-white font-bold"
-            size="lg"
-          >
-            Post
-          </Button>
+          <Link href="/feed">
+            <Button
+              className="w-full mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold"
+              size="lg"
+            >
+              Post
+            </Button>
+          </Link>
         </div>
 
         <NavbarMenu />

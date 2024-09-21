@@ -11,6 +11,10 @@ interface Posts {
   createdAt: string | Date;
   updatedAt: string | Date;
   userId: number;
+  _count: {
+    comments: number;
+    likes: number;
+  };
 }
 
 const ProfileTabs = ({ posts }: { posts: Posts[] }) => {
@@ -43,6 +47,7 @@ const ProfileTabs = ({ posts }: { posts: Posts[] }) => {
               updatedAt={tweet.updatedAt}
               userId={tweet.userId}
               user={{ username: "" }}
+              _count={tweet._count}
             />
           ))}
         </div>

@@ -17,7 +17,13 @@ import Spinner from "./Spinner";
 import { toast } from "sonner";
 import { postComment } from "@/actions";
 
-export default function CommentDialog({ postId }: { postId: number }) {
+export default function CommentDialog({
+  postId,
+  commentCount,
+}: {
+  postId: number;
+  commentCount: number;
+}) {
   const [comment, setComment] = useState("");
   const session = useSession();
 
@@ -48,7 +54,7 @@ export default function CommentDialog({ postId }: { postId: number }) {
       <DialogTrigger asChild>
         <Button variant="ghost">
           <MessageCircle size={18} />
-          <span className="pl-2">3</span>
+          <span className="pl-2">{commentCount}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white text-black dark:bg-black dark:text-white">
