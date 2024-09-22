@@ -15,7 +15,7 @@ const LogoutButton = () => {
           onClick={() => {
             router.push("/");
           }}
-          className="flex flex-row items-center text-start p-0 bg-inherit dark:text-white text-xl hover:bg-inherit dark:hover:text-blue-500"
+          className="flex flex-row items-center text-start p-0 bg-inherit dark:text-white shadow-none text-black text-xl hover:bg-inherit hover:text-blue-500 dark:hover:text-blue-500"
         >
           <LogInIcon className="size-4 mr-6" />
           Login
@@ -26,7 +26,7 @@ const LogoutButton = () => {
           onClick={() => {
             signOut();
           }}
-          className="flex flex-row items-center text-start p-0 bg-inherit dark:text-white text-xl hover:bg-inherit dark:hover:text-blue-500"
+          className="flex flex-row items-center text-start p-0 bg-inherit dark:text-white shadow-none text-black text-xl hover:bg-inherit hover:text-blue-500 dark:hover:text-blue-500"
         >
           <LogOutIcon className="size-4 mr-6" />
           Logout

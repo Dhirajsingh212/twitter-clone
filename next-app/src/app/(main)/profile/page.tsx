@@ -25,11 +25,15 @@ export default async function FullXProfile() {
         <div className="flex-grow max-w-2xl lg:p-4">
           <div className="relative">
             <Image
+              width={1000}
+              height={1000}
               src={profileDefualtImage1}
               alt="Profile banner"
               className="w-full h-48 object-cover"
             />
             <Image
+              width={1000}
+              height={1000}
               src={profileDefualtImage2}
               alt="Profile picture"
               className="absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
@@ -84,13 +88,13 @@ export default async function FullXProfile() {
             </div>
             <div className="flex mt-2">
               <p className="mr-4">
-                <strong>5,230</strong>{" "}
+                <strong>{userDetails?._count.followers}</strong>{" "}
                 <span className="text-gray-500 dark:text-gray-400">
                   Following
                 </span>
               </p>
               <p>
-                <strong>3.1M</strong>{" "}
+                <strong>{userDetails?._count.following}</strong>{" "}
                 <span className="text-gray-500 dark:text-gray-400">
                   Followers
                 </span>

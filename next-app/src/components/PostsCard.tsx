@@ -13,6 +13,7 @@ import Link from "next/link";
 import CommentDialog from "./CommentDialog";
 import LikeButton from "./LikeButton";
 import SessionCheck from "./SessionCheck";
+import { Skeleton } from "./ui/skeleton";
 
 const PostsCard = ({ id, user, content, createdAt, _count }: Post) => {
   return (
@@ -33,7 +34,9 @@ const PostsCard = ({ id, user, content, createdAt, _count }: Post) => {
         </CardContent>
       </Link>
       <CardFooter className="flex justify-between">
-        <SessionCheck>
+        <SessionCheck
+          Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
+        >
           <CommentDialog postId={id} commentCount={_count.comments} />
           <LikeButton postId={id} likeCount={_count.likes} />
           <Button variant="ghost" size="sm">

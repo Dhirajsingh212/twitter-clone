@@ -19,6 +19,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import Spinner from "./Spinner";
+import { Skeleton } from "./ui/skeleton";
 
 export default function ProfileBioDialog(props: ProfileBioInputs) {
   const [inputForm, setInputForm] = useState<ProfileBioInputs>({
@@ -77,7 +78,7 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
   };
 
   if (session.status !== "authenticated") {
-    return <Spinner />;
+    return <Skeleton className="w-20 min-h-10 rounded-sm" />;
   }
 
   return (

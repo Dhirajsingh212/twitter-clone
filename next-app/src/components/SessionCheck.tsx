@@ -4,11 +4,17 @@ import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
 import Spinner from "./Spinner";
 
-const SessionCheck = ({ children }: { children: ReactNode }) => {
+const SessionCheck = ({
+  children,
+  Fallback,
+}: {
+  children: ReactNode;
+  Fallback?: ReactNode;
+}) => {
   const session = useSession();
 
   if (session.status === "loading") {
-    return <Spinner />;
+    return <>{Fallback ? Fallback : <Spinner />}</>;
   }
   if (session.status === "unauthenticated") {
     return null;

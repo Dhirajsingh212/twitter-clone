@@ -19,6 +19,17 @@ export async function fetchUserDetailsById(userId: number) {
         link: true,
         createdAt: true,
         updatedAt: true,
+        _count: {
+          select: {
+            followers: true,
+            following: true,
+          },
+        },
+        following: {
+          select: {
+            followerId: true,
+          },
+        },
       },
     });
     return user;
@@ -43,6 +54,12 @@ export async function fetchUserDetails(email: string) {
         link: true,
         createdAt: true,
         updatedAt: true,
+        _count: {
+          select: {
+            followers: true,
+            following: true,
+          },
+        },
       },
     });
     return user;
@@ -322,6 +339,42 @@ export async function tweetLike(userId: number, postId: number) {
     console.log(err);
     revalidatePath("/feed");
     revalidatePath("/profile");
+    return false;
+  }
+}
+
+// **************************************************************//
+
+// ********************FOLLOW***********************************//
+
+export async function followUser(followId: number, userId: number) {
+  try {
+    await prisma.follow.create({
+      data: {
+        followerId: userId,
+        followingId: followId,
+      },
+    });
+    revalidatePath(`/profile/${followId}`);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
+export async function unfollowUser(followId: number, userId: number) {
+  try {
+    await prisma.follow.deleteMany({
+      where: {
+        followerId: userId,
+        followingId: followId,
+      },
+    });
+    revalidatePath(`/profile/${followId}`);
+    return true;
+  } catch (err) {
+    console.log(err);
     return false;
   }
 }

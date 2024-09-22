@@ -1,6 +1,6 @@
 import { fetchUserAllPostById, fetchUserDetailsById } from "@/actions";
+import FollowButton from "@/components/FollowButton";
 import ProfileTabs from "@/components/ProfileTabs";
-import { Button } from "@/components/ui/button";
 import { formatDateString } from "@/lib/date";
 import { profileDefualtImage1, profileDefualtImage2 } from "@/resource";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
@@ -17,7 +17,7 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
     return <div className="mx-auto">No user found.</div>;
   }
 
-  if ((session?.user as any).email === userDetails.email) {
+  if (session && (session?.user as any).email === userDetails.email) {
     redirect("/profile");
   }
 
@@ -30,8 +30,12 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
               src={profileDefualtImage1}
               alt="Profile banner"
               className="w-full h-48 object-cover"
+              width={1000}
+              height={1000}
             />
             <Image
+              width={1000}
+              height={1000}
               src={profileDefualtImage2}
               alt="Profile picture"
               className="absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
@@ -40,8 +44,13 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
 
           {/* Profile Info */}
           <div className="mt-16 px-4">
-            <div className="flex justify-end mb-4">
-              <Button>Follow</Button>
+            <div className="flex flex-row gap-2 justify-end mb-4">
+              {userDetails.following && (
+                <FollowButton
+                  followId={Number(params.id[0])}
+                  followers={userDetails.following}
+                />
+              )}
             </div>
             <h1 className="text-xl font-bold">
               {userDetails && userDetails.username}
@@ -82,13 +91,13 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
             </div>
             <div className="flex mt-2">
               <p className="mr-4">
-                <strong>5,230</strong>{" "}
+                <strong>{userDetails._count.followers}</strong>{" "}
                 <span className="text-gray-500 dark:text-gray-400">
                   Following
                 </span>
               </p>
               <p>
-                <strong>3.1M</strong>{" "}
+                <strong>{userDetails._count.following}</strong>{" "}
                 <span className="text-gray-500 dark:text-gray-400">
                   Followers
                 </span>

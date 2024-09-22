@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import LogoutButton from "./LogoutButton";
 import SessionCheck from "./SessionCheck";
+import ButtonSkeleton from "@/skeletons/ButtonSkeleton";
+import { Skeleton } from "./ui/skeleton";
 
 const LeftNavbar = () => {
   const pathName = usePathname();
@@ -30,7 +32,10 @@ const LeftNavbar = () => {
               element.text === "Settings"
             ) {
               return (
-                <SessionCheck key={index}>
+                <SessionCheck
+                  key={index}
+                  Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
+                >
                   <Link
                     className={cn(
                       "hover:text-blue-500  transition duration-200 w-full justify-start items-center flex flex-row gap-4 text-xl  rounded-full",
