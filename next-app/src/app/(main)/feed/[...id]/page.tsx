@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { RepeatIcon, ShareIcon } from "lucide-react";
+import Link from "next/link";
 
 export default async function PostPage({
   params,
@@ -24,15 +25,17 @@ export default async function PostPage({
     <div className="container max-w-2xl mx-auto p-4 h-[90vh] overflow-y-scroll no-scrollbar">
       <Card className="mb-8">
         <CardHeader className="flex flex-row items-center gap-4">
-          <Avatar>
-            <AvatarImage
-              src=""
-              alt={(singlePost && singlePost.user.username) || ""}
-            />
-            <AvatarFallback>
-              {singlePost && singlePost.user.username[0]}
-            </AvatarFallback>
-          </Avatar>
+          <Link href={`/profile/${singlePost?.user.id}`}>
+            <Avatar>
+              <AvatarImage
+                src=""
+                alt={(singlePost && singlePost.user.username) || ""}
+              />
+              <AvatarFallback>
+                {singlePost && singlePost.user.username[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </Link>
           <div>
             <p className="font-semibold">
               {singlePost && singlePost.user.username}

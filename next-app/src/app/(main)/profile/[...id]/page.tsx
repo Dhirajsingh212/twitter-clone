@@ -1,7 +1,6 @@
-import { fetchUserAllPost, fetchUserDetails } from "@/actions";
-import ProfileBioDialog from "@/components/ProfileBioDialog";
+import { fetchUserAllPostById, fetchUserDetailsById } from "@/actions";
 import ProfileTabs from "@/components/ProfileTabs";
-import NextAuth from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 import { formatDateString } from "@/lib/date";
 import { profileDefualtImage1, profileDefualtImage2 } from "@/resource";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
@@ -9,15 +8,18 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-export default async function FullXProfile() {
-  const session = await getServerSession(NextAuth);
+const Component = async ({ params }: { params: { id: string[] } }) => {
+  const userDetails = await fetchUserDetailsById(Number(params.id[0]));
+  const userPosts = await fetchUserAllPostById(Number(params.id[0]));
+  const session = await getServerSession();
 
-  if (!session || !(session as any).user) {
-    redirect("/feed");
+  if (!userDetails) {
+    return <div className="mx-auto">No user found.</div>;
   }
 
-  const userDetails = await fetchUserDetails((session as any).user.email);
-  const userPosts = await fetchUserAllPost((session as any).user.email);
+  if ((session?.user as any).email === userDetails.email) {
+    redirect("/profile");
+  }
 
   return (
     <div className="max-h-[90vh]  lg:w-1/2 no-scrollbar overflow-y-scroll  text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -39,11 +41,7 @@ export default async function FullXProfile() {
           {/* Profile Info */}
           <div className="mt-16 px-4">
             <div className="flex justify-end mb-4">
-              <ProfileBioDialog
-                bio={(userDetails && userDetails.bio) || ""}
-                location={(userDetails && userDetails.location) || ""}
-                link={(userDetails && userDetails.link) || ""}
-              />
+              <Button>Follow</Button>
             </div>
             <h1 className="text-xl font-bold">
               {userDetails && userDetails.username}
@@ -104,4 +102,6 @@ export default async function FullXProfile() {
       </div>
     </div>
   );
-}
+};
+
+export default Component;

@@ -30,9 +30,8 @@ const LeftNavbar = () => {
               element.text === "Settings"
             ) {
               return (
-                <SessionCheck>
+                <SessionCheck key={index}>
                   <Link
-                    key={index}
                     className={cn(
                       "hover:text-blue-500  transition duration-200 w-full justify-start items-center flex flex-row gap-4 text-xl  rounded-full",
                       {

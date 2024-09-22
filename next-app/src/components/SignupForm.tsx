@@ -1,14 +1,14 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { ResponseObj } from "@/types";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import Spinner from "./Spinner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { toast } from "sonner";
-import { redirect, useRouter } from "next/navigation";
-import { ResponseObj } from "@/types";
-import { useState } from "react";
-import Spinner from "./Spinner";
 
 type Inputs = {
   username: string;

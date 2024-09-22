@@ -4,11 +4,45 @@ import { revalidatePath } from "next/cache";
 
 // ************************USERS**********************************//
 
+export async function fetchUserDetailsById(userId: number) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        bio: true,
+        location: true,
+        link: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return user;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 export async function fetchUserDetails(email: string) {
   try {
     const user = await prisma.user.findFirst({
       where: {
         email: email,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        bio: true,
+        location: true,
+        link: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
     return user;
@@ -77,6 +111,42 @@ export async function fetchPosts() {
   }
 }
 
+export async function fetchUserAllPostById(userId: number) {
+  try {
+    const userPosts = await prisma.tweet.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        userId: true,
+        content: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return userPosts || [];
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
 export async function fetchUserAllPost(email: string) {
   try {
     const userDetails = await prisma.user.findFirst({
@@ -133,6 +203,7 @@ export async function fetchSinglePostById(postId: number) {
         user: {
           select: {
             username: true,
+            id: true,
           },
         },
         _count: {

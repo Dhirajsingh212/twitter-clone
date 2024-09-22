@@ -24,7 +24,7 @@ const LikeButton = ({
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [postId]);
 
   const handleClick = async () => {
     try {

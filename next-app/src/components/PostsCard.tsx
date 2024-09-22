@@ -7,36 +7,14 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
+import { Post } from "@/types";
 import { ChartNoAxesColumnIncreasing, Share2 } from "lucide-react";
 import Link from "next/link";
 import CommentDialog from "./CommentDialog";
 import LikeButton from "./LikeButton";
 import SessionCheck from "./SessionCheck";
 
-interface Post {
-  id: number;
-  user: {
-    username: string;
-  };
-  content: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
-  userId: number;
-  _count: {
-    comments: number;
-    likes: number;
-  };
-}
-
-const PostsCard = ({
-  id,
-  user,
-  content,
-  createdAt,
-  updatedAt,
-  userId,
-  _count,
-}: Post) => {
+const PostsCard = ({ id, user, content, createdAt, _count }: Post) => {
   return (
     <Card key={id} className="my-4  border-gray-200 dark:border-gray-800">
       <Link href={`/feed/${id}`}>

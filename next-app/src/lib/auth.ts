@@ -4,7 +4,6 @@ import { importJWK, JWTPayload, SignJWT } from "jose";
 import NextAuth, { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 
 const generateJWT = async (payload: JWTPayload) => {
   const secret = process.env.JWT_SECRET || "Secr3t";
@@ -108,7 +107,7 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET || "Secr3t",
   callbacks: {
-    session: async ({ session, token, user }) => {
+    session: async ({ session, token }) => {
       const newSession: session = session as session;
       if (newSession.user && token.uid) {
         newSession.user.id = token.uid as string;

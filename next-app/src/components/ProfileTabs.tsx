@@ -1,23 +1,10 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatDateToHrsAgo } from "@/lib/date";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Post } from "@/types";
 import { useState } from "react";
 import PostsCard from "./PostsCard";
 
-interface Posts {
-  id: number;
-  content: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
-  userId: number;
-  _count: {
-    comments: number;
-    likes: number;
-  };
-}
-
-const ProfileTabs = ({ posts }: { posts: Posts[] }) => {
+const ProfileTabs = ({ posts }: { posts: Post[] }) => {
   const [activeTab, setActiveTab] = useState("posts");
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
@@ -38,7 +25,7 @@ const ProfileTabs = ({ posts }: { posts: Posts[] }) => {
       <TabsContent value="posts" className="lg:p-4">
         <div className="space-y-4">
           {posts.length === 0 && <p>No posts found.</p>}
-          {posts.map((tweet: Posts) => (
+          {posts.map((tweet: Post) => (
             <PostsCard
               key={tweet.id}
               id={tweet.id}

@@ -4,26 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { Post } from "@/types";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import PostsCard from "./PostsCard";
-import Spinner from "./Spinner";
-
-interface Post {
-  id: number;
-  user: {
-    username: string;
-  };
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  userId: number;
-  _count: {
-    comments: number;
-    likes: number;
-  };
-}
 
 const Feed = ({ dbPosts }: { dbPosts: any }) => {
   const session = useSession();
@@ -54,7 +39,7 @@ const Feed = ({ dbPosts }: { dbPosts: any }) => {
         });
       };
 
-      newSocket.onclose = (event) => {
+      newSocket.onclose = () => {
         // toast.error("Disconnected. Please reload the page.");
       };
 

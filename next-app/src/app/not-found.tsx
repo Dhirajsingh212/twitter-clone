@@ -1,24 +1,37 @@
-// @ts-nocheck
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const useWindowSize = () => {
-  const [size, setSize] = useState([0, 0]);
+// Define the type for box objects
+type Box = {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  rotation: number;
+  duration: number;
+};
+
+const useWindowSize = (): [number, number] => {
+  const [size, setSize] = useState<[number, number]>([0, 0]);
+
   useEffect(() => {
     const updateSize = () => {
       setSize([window.innerWidth, window.innerHeight]);
     };
+
     window.addEventListener("resize", updateSize);
     updateSize();
+
     return () => window.removeEventListener("resize", updateSize);
   }, []);
+
   return size;
 };
 
 export default function Component() {
-  const [email, setEmail] = useState("");
-  const [boxes, setBoxes] = useState([]);
+  const [email, setEmail] = useState<string>("");
+  const [boxes, setBoxes] = useState<Box[]>([]);
   const [width, height] = useWindowSize();
 
   useEffect(() => {
@@ -85,7 +98,7 @@ export default function Component() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
-          We're working on something amazing. Stay tuned!
+          {"We're working on something amazing. Stay tuned!"}
         </motion.p>
       </motion.div>
 

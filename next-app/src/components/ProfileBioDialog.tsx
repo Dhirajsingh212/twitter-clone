@@ -1,5 +1,6 @@
 "use client";
 
+import { updateBio } from "@/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,22 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { ProfileBioInputs } from "@/types";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { updateBio } from "@/actions";
-import { useSession } from "next-auth/react";
 import Spinner from "./Spinner";
 
-interface Inputs {
-  bio: string;
-  location: string;
-  link: string;
-}
-
-export default function ProfileBioDialog(props: Inputs) {
-  const [inputForm, setInputForm] = useState<Inputs>({
+export default function ProfileBioDialog(props: ProfileBioInputs) {
+  const [inputForm, setInputForm] = useState<ProfileBioInputs>({
     bio: props.bio,
     location: props.location,
     link: props.link,
@@ -41,7 +34,7 @@ export default function ProfileBioDialog(props: Inputs) {
   const changeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setInputForm((prev: Inputs) => {
+    setInputForm((prev: ProfileBioInputs) => {
       return {
         ...prev,
         [event.target.name]: event.target.value,
@@ -96,7 +89,9 @@ export default function ProfileBioDialog(props: Inputs) {
         <DialogHeader>
           <DialogTitle>Edit X Profile</DialogTitle>
           <DialogDescription>
-            Make changes to your X profile here. Click save when you're done.
+            {
+              "Make changes to your X profile here. Click save when you're done."
+            }
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col space-y-4 py-4">
