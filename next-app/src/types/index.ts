@@ -16,6 +16,10 @@ export interface Post {
   createdAt: string | Date;
   updatedAt: string | Date;
   userId: number;
+  likes?: {
+    tweetId: number;
+    userId: number;
+  }[];
   _count: {
     comments: number;
     likes: number;

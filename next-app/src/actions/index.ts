@@ -96,6 +96,22 @@ export async function updateBio(
 
 // ************************TWEET**********************************//
 
+export async function postTweet(userId: number, message: string) {
+  try {
+    await prisma.tweet.create({
+      data: {
+        content: message,
+        userId: userId,
+      },
+    });
+    revalidatePath("/feed");
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 export async function fetchPosts() {
   try {
     const allPosts = await prisma.tweet.findMany({
@@ -108,6 +124,12 @@ export async function fetchPosts() {
         id: true,
         createdAt: true,
         updatedAt: true,
+        likes: {
+          select: {
+            tweetId: true,
+            userId: true,
+          },
+        },
         user: {
           select: {
             username: true,

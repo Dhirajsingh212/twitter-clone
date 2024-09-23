@@ -15,7 +15,7 @@ import LikeButton from "./LikeButton";
 import SessionCheck from "./SessionCheck";
 import { Skeleton } from "./ui/skeleton";
 
-const PostsCard = ({ id, user, content, createdAt, _count }: Post) => {
+const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
   return (
     <Card key={id} className="my-4  border-gray-200 dark:border-gray-800">
       <Link href={`/feed/${id}`}>
@@ -30,7 +30,7 @@ const PostsCard = ({ id, user, content, createdAt, _count }: Post) => {
           </div>
         </CardHeader>
         <CardContent>
-          <p>{content}</p>
+          <p className="flex-wrap break-words">{content}</p>
         </CardContent>
       </Link>
       <CardFooter className="flex justify-between">
@@ -38,7 +38,7 @@ const PostsCard = ({ id, user, content, createdAt, _count }: Post) => {
           Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
         >
           <CommentDialog postId={id} commentCount={_count.comments} />
-          <LikeButton postId={id} likeCount={_count.likes} />
+          <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
           <Button variant="ghost" size="sm">
             <ChartNoAxesColumnIncreasing size={18} />
             <span className="pl-2">2.6K</span>

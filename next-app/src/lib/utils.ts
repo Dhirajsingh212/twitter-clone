@@ -11,3 +11,19 @@ export function compareFollowerId(
 ) {
   return followers.find((follower) => follower.followerId === userId);
 }
+
+export function compareLikeId(
+  likes: { tweetId: number; userId: number }[],
+  userId: number
+) {
+  return likes.find((el) => {
+    return el.userId === userId;
+  });
+}
+
+export function findDiff(pollingPostLength: number, allPostLength: number) {
+  if (pollingPostLength >= allPostLength) {
+    return pollingPostLength - allPostLength;
+  }
+  return 0;
+}

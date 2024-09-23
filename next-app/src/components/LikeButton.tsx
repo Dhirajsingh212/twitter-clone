@@ -1,30 +1,33 @@
 "use client";
+import { tweetLike } from "@/actions";
+import { cn, compareLikeId } from "@/lib/utils";
 import { Heart } from "lucide-react";
-import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
-import { isLikedByUser, tweetLike } from "@/actions";
 import { useSession } from "next-auth/react";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 const LikeButton = ({
   postId,
   likeCount,
+  allLikes,
 }: {
   postId: number;
   likeCount: number;
+  allLikes?: {
+    tweetId: number;
+    userId: number;
+  }[];
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const session = useSession();
+  const userId = Number((session.data?.user as any).id);
+
   useEffect(() => {
-    if (session.status === "authenticated") {
-      isLikedByUser(Number((session.data?.user as any).id), postId)
-        .then((res) => {
-          setIsLiked(res || false);
-        })
-        .catch((err) => console.log(err));
+    if (compareLikeId(allLikes || [], userId)) {
+      setIsLiked(true);
     }
-  }, [postId]);
+  }, []);
 
   const handleClick = async () => {
     try {

@@ -10,6 +10,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { RepeatIcon, ShareIcon } from "lucide-react";
 import Link from "next/link";
@@ -46,10 +47,12 @@ export default async function PostPage({
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-xl mb-4">{singlePost && singlePost.content}</p>
+          <p className="text-xl mb-4 flex-wrap break-words">
+            {singlePost && singlePost.content}
+          </p>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <SessionCheck>
+          <SessionCheck Fallback={<Skeleton className="w-full h-10" />}>
             {singlePost && (
               <LikeButton
                 postId={singlePost?.id}
