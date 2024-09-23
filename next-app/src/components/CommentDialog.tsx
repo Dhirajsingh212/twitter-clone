@@ -53,7 +53,7 @@ export default function CommentDialog({
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="ghost">
-          <MessageCircle size={18} />
+          <MessageCircle className="size-4" />
           <span className="pl-2">{commentCount}</span>
         </Button>
       </DialogTrigger>

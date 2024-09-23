@@ -44,8 +44,7 @@ const LikeButton = ({
   return (
     <Button variant="ghost" size="sm" onClick={handleClick}>
       <Heart
-        size={18}
-        className={cn({
+        className={cn("size-4", {
           "text-green-500": isLiked,
         })}
       />

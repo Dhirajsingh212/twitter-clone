@@ -23,7 +23,7 @@ export default async function PostPage({
   const singlePost = await fetchSinglePostById(Number(params.id[0]));
 
   return (
-    <div className="container max-w-2xl mx-auto p-4 h-[90vh] overflow-y-scroll no-scrollbar">
+    <div className="container max-w-2xl mx-auto p-2 sm:p-4 h-[90vh] overflow-y-scroll no-scrollbar">
       <Card className="mb-8">
         <CardHeader className="flex flex-row items-center gap-4">
           <Link href={`/profile/${singlePost?.user.id}`}>
@@ -51,7 +51,7 @@ export default async function PostPage({
             {singlePost && singlePost.content}
           </p>
         </CardContent>
-        <CardFooter className="flex justify-between">
+        <CardFooter className="flex justify-between p-6">
           <SessionCheck Fallback={<Skeleton className="w-full h-10" />}>
             {singlePost && (
               <LikeButton

@@ -42,7 +42,7 @@ const RightSideBar = () => {
             )}
           </ul>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="p-6">
           <Link
             href="#"
             className="text-blue-500 dark:text-blue-400 hover:underline"

@@ -23,7 +23,7 @@ const PostDialog = () => {
               />
             </div>
           </CardHeader>
-          <CardFooter className="flex justify-between items-center">
+          <CardFooter className="flex justify-between items-center p-6">
             <div className="flex space-x-2">
               <Button variant="ghost" size="sm">
                 📷

@@ -15,7 +15,7 @@ const ShareButton = ({ id }: { id: number }) => {
       variant="ghost"
       size="sm"
     >
-      <Share2 size={18} />
+      <Share2 className="size-4 " />
     </Button>
   );
 };
