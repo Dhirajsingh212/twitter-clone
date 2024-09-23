@@ -22,7 +22,7 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
           Likes
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="posts" className="lg:p-4">
+      <TabsContent value="posts" className="lg:py-4">
         <div className="space-y-4">
           {posts.length === 0 && <p>No posts found.</p>}
           {posts.map((tweet: Post) => (
@@ -35,6 +35,7 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
               userId={tweet.userId}
               user={{ username: "" }}
               _count={tweet._count}
+              likes={tweet.likes}
             />
           ))}
         </div>

@@ -162,6 +162,12 @@ export async function fetchUserAllPostById(userId: number) {
         id: true,
         createdAt: true,
         updatedAt: true,
+        likes: {
+          select: {
+            tweetId: true,
+            userId: true,
+          },
+        },
         user: {
           select: {
             username: true,
@@ -204,6 +210,12 @@ export async function fetchUserAllPost(email: string) {
         id: true,
         createdAt: true,
         updatedAt: true,
+        likes: {
+          select: {
+            tweetId: true,
+            userId: true,
+          },
+        },
         user: {
           select: {
             username: true,

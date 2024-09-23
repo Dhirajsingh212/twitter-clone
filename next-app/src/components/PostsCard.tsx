@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { Post } from "@/types";
-import { ChartNoAxesColumnIncreasing, Share2 } from "lucide-react";
+import { ChartNoAxesColumnIncreasing } from "lucide-react";
 import Link from "next/link";
 import CommentDialog from "./CommentDialog";
 import LikeButton from "./LikeButton";
 import SessionCheck from "./SessionCheck";
+import ShareButton from "./ShareButton";
 import { Skeleton } from "./ui/skeleton";
 
 const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
@@ -29,8 +30,8 @@ const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
             <p className="text-gray-400">{formatDateToHrsAgo(createdAt)}</p>
           </div>
         </CardHeader>
-        <CardContent>
-          <p className="flex-wrap break-words">{content}</p>
+        <CardContent className="max-w-xl">
+          <p className="flex-wrap break-words w-full">{content}</p>
         </CardContent>
       </Link>
       <CardFooter className="flex justify-between">
@@ -43,9 +44,7 @@ const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
             <ChartNoAxesColumnIncreasing size={18} />
             <span className="pl-2">2.6K</span>
           </Button>
-          <Button variant="ghost" size="sm">
-            <Share2 size={18} />
-          </Button>
+          <ShareButton id={id} />
         </SessionCheck>
       </CardFooter>
     </Card>

@@ -15,6 +15,9 @@ import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
+import { Image, Video } from "lucide-react";
+import { Input } from "./ui/input";
+import InputImage from "./InputImage";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
@@ -69,19 +72,15 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                   />
                 </div>
               </CardHeader>
-              <CardFooter className="flex justify-between items-center">
+              <CardFooter className="flex flex-col justify-between items-end">
                 <div className="flex space-x-2">
-                  <Button variant="ghost" size="sm">
-                    📷
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    🎥
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    📊
-                  </Button>
+                  {/* <InputImage /> */}
+                  {/* <Button variant="ghost" size="sm">
+                    <Video />
+                  </Button> */}
                 </div>
                 <Button
+                  className="bg-blue-500 text-white hover:bg-blue-400 "
                   disabled={isLoading}
                   onClick={async () => {
                     try {
