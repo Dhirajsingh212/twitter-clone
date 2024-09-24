@@ -127,6 +127,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                 userId={post.userId}
                 _count={post._count}
                 likes={post.likes}
+                bookmarks={post.bookmarks}
               />
             ))}
           </div>

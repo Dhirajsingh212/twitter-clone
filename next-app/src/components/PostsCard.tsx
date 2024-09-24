@@ -10,7 +10,15 @@ import SessionCheck from "./SessionCheck";
 import ShareButton from "./ShareButton";
 import { Skeleton } from "./ui/skeleton";
 
-const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
+const PostsCard = ({
+  id,
+  user,
+  content,
+  createdAt,
+  _count,
+  likes,
+  bookmarks,
+}: Post) => {
   return (
     <Card
       key={id}
@@ -39,7 +47,7 @@ const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
         >
           <CommentDialog postId={id} commentCount={_count.comments} />
           <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
-          <BookmarkButton postId={id} />
+          <BookmarkButton postId={id} allBookmarks={bookmarks} />
           <ShareButton id={id} />
         </SessionCheck>
       </CardFooter>

@@ -6,6 +6,17 @@ export interface ResponseObj {
   message?: string | null;
 }
 
+export interface Bookmark {
+  id: number;
+  user: {
+    username: string;
+    id?: number;
+  };
+  content: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+}
+
 export interface Post {
   id: number;
   user: {
@@ -16,6 +27,10 @@ export interface Post {
   createdAt: string | Date;
   updatedAt: string | Date;
   userId: number;
+  bookmarks?: {
+    userId: number;
+    tweetId: number;
+  }[];
   likes?: {
     tweetId: number;
     userId: number;

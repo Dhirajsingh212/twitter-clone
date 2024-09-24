@@ -4,33 +4,66 @@ import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { addBookmark } from "@/actions";
+import { useEffect, useState } from "react";
+import { compareBookmarksId } from "@/lib/utils";
 
-const BookmarkButton = ({ postId }: { postId: number }) => {
+const BookmarkButton = ({
+  postId,
+  allBookmarks,
+}: {
+  postId: number;
+  allBookmarks?: {
+    tweetId: number;
+    userId: number;
+  }[];
+}) => {
   const session = useSession();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
   if (session.status === "loading" || session.status === "unauthenticated") {
     return null;
   }
   const userId = Number((session.data?.user as any).id);
+
+  useEffect(() => {
+    if (compareBookmarksId(allBookmarks || [], userId)) {
+      setIsLiked(true);
+    }
+  }, [allBookmarks]);
+
   return (
-    <Button
-      onClick={async () => {
-        try {
-          if (await addBookmark(userId, postId)) {
-            toast.success("added to bookmarks.");
-          } else {
-            toast.error("Something went wrong.");
-          }
-        } catch (err) {
-          console.log(err);
-          toast.error("Something went wrong.");
-        }
-      }}
-      variant="ghost"
-      size="sm"
-      className="flex items-center"
-    >
-      <Bookmark className="size-4 " />
-    </Button>
+    <>
+      {isLiked ? (
+        <Button variant="ghost" size="sm">
+          <Bookmark className="size-4 text-rose-500" />
+        </Button>
+      ) : (
+        <Button
+          disabled={isLoading}
+          onClick={async () => {
+            try {
+              setIsLoading(true);
+              if (await addBookmark(userId, postId)) {
+                toast.success("added to bookmarks.");
+              } else {
+                toast.error("Something went wrong.");
+              }
+            } catch (err) {
+              console.log(err);
+              toast.error("Something went wrong.");
+            } finally {
+              setIsLoading(false);
+            }
+          }}
+          variant="ghost"
+          size="sm"
+          className="flex items-center"
+        >
+          <Bookmark className="size-4 " />
+        </Button>
+      )}
+    </>
   );
 };
 

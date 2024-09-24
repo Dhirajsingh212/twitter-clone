@@ -36,6 +36,7 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
               user={{ username: "" }}
               _count={tweet._count}
               likes={tweet.likes}
+              bookmarks={tweet.bookmarks}
             />
           ))}
         </div>

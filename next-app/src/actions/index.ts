@@ -173,6 +173,12 @@ export async function fetchPosts() {
         id: true,
         createdAt: true,
         updatedAt: true,
+        bookmarks: {
+          select: {
+            userId: true,
+            tweetId: true,
+          },
+        },
         likes: {
           select: {
             tweetId: true,
@@ -211,6 +217,12 @@ export async function fetchUserAllPostById(userId: number) {
         id: true,
         createdAt: true,
         updatedAt: true,
+        bookmarks: {
+          select: {
+            tweetId: true,
+            userId: true,
+          },
+        },
         likes: {
           select: {
             tweetId: true,
@@ -259,6 +271,12 @@ export async function fetchUserAllPost(email: string) {
         id: true,
         createdAt: true,
         updatedAt: true,
+        bookmarks: {
+          select: {
+            userId: true,
+            tweetId: true,
+          },
+        },
         likes: {
           select: {
             tweetId: true,
@@ -474,11 +492,56 @@ export async function addBookmark(userId: number, postId: number) {
         tweetId: postId,
       },
     });
+    revalidatePath("/feed");
     revalidatePath("/bookmarks");
     return true;
   } catch (err) {
     console.log(err);
     return false;
+  }
+}
+
+export async function fetchUserBookmark(email: string) {
+  try {
+    const userDetails = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (!userDetails) {
+      return false;
+    }
+    const bookmarkData = await prisma.bookmark.findMany({
+      where: {
+        userId: userDetails.id,
+      },
+      select: {
+        tweet: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            updatedAt: true,
+            user: {
+              select: {
+                username: true,
+                id: true,
+              },
+            },
+            _count: {
+              select: {
+                comments: true,
+                likes: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return bookmarkData;
+  } catch (err) {
+    console.log(err);
+    return null;
   }
 }
 

@@ -21,6 +21,15 @@ export function compareLikeId(
   });
 }
 
+export function compareBookmarksId(
+  bookmarks: { tweetId: number; userId: number }[],
+  userId: number
+) {
+  return bookmarks.find((el) => {
+    return el.userId === userId;
+  });
+}
+
 export function findDiff(pollingPostLength: number, allPostLength: number) {
   return Math.abs(pollingPostLength - allPostLength);
 }
