@@ -1,11 +1,10 @@
 "use client";
-import { useSession } from "next-auth/react";
-import { Button } from "./ui/button";
-import Spinner from "./Spinner";
-import { toast } from "sonner";
 import { followUser, unfollowUser } from "@/actions";
-import { useState } from "react";
 import { compareFollowerId } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
 const FollowButton = ({

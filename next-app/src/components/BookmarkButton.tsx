@@ -21,16 +21,20 @@ const BookmarkButton = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
-  if (session.status === "loading" || session.status === "unauthenticated") {
-    return null;
-  }
   const userId = Number((session.data?.user as any).id);
 
   useEffect(() => {
+    if (session.status === "loading" || session.status === "unauthenticated") {
+      return;
+    }
     if (compareBookmarksId(allBookmarks || [], userId)) {
       setIsLiked(true);
     }
-  }, [allBookmarks]);
+  }, [allBookmarks, userId]);
+
+  if (session.status === "loading" || session.status === "unauthenticated") {
+    return null;
+  }
 
   return (
     <>

@@ -484,6 +484,22 @@ export async function unfollowUser(followId: number, userId: number) {
 
 // ********************BOOKMARKS*********************************//
 
+export async function deleteBookmarkById(userId: number, bookmarkId: number) {
+  try {
+    await prisma.bookmark.deleteMany({
+      where: {
+        userId: userId,
+        tweetId: bookmarkId,
+      },
+    });
+    revalidatePath("/bookmarks");
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 export async function addBookmark(userId: number, postId: number) {
   try {
     await prisma.bookmark.create({

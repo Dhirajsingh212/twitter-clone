@@ -1,7 +1,4 @@
 "use client";
-import React, { Suspense, useState } from "react";
-import Spinner from "./Spinner";
-import Image from "next/image";
 import {
   Carousel,
   CarouselContent,
@@ -9,9 +6,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
 import { ImageIcon, X } from "lucide-react";
+import Image from "next/image";
+import { Suspense, useState } from "react";
+import Spinner from "./Spinner";
+import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
 
 const MultipleImagePreview = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -68,7 +68,10 @@ const MultipleImagePreview = () => {
             <Carousel className="w-full">
               <CarouselContent className="-ml-1 flex-col">
                 {imagePreviews.map((image, index) => (
-                  <CarouselItem className="pl-1 basis-full sm:basis-1/2 lg:basis-1/3">
+                  <CarouselItem
+                    key={index}
+                    className="pl-1 basis-full sm:basis-1/2 lg:basis-1/3"
+                  >
                     <div className="p-1">
                       <Card className="max-sm:w-40 max-sm:h-40">
                         <CardContent className="flex aspect-square items-center justify-center p-2 relative">

@@ -2,14 +2,19 @@ import { fetchUserBookmark } from "@/actions";
 import BookmarkCard from "@/components/BookmarkCard";
 import { Bookmark } from "@/types";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 const Bookmarks = async () => {
   const session = await getServerSession();
 
+  if (!session) {
+    redirect("/feed");
+  }
+
   const bookmarkData = await fetchUserBookmark((session as any).user.email);
-  console.log(bookmarkData);
+
   return (
-    <div className="mx-auto overflow-y-scroll h-[90vh] no-scrollbar">
+    <div className="mx-auto overflow-y-scroll h-[90vh] no-scrollbar lg:w-1/2 w-full">
       {bookmarkData &&
         bookmarkData.map((element: { tweet: Bookmark }) => {
           return (

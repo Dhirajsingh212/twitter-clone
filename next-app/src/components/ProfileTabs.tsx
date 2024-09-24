@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Post } from "@/types";
 import { useState } from "react";
 import PostsCard from "./PostsCard";
+import ComingSoonCard from "./ComingSoonCard";
 
 const ProfileTabs = ({ posts }: { posts: Post[] }) => {
   const [activeTab, setActiveTab] = useState("posts");
@@ -42,13 +43,13 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
         </div>
       </TabsContent>
       <TabsContent className="p-4" value="replies">
-        Replies content
+        <ComingSoonCard />
       </TabsContent>
       <TabsContent className="p-4" value="media">
-        Media content
+        <ComingSoonCard />
       </TabsContent>
       <TabsContent className="p-4" value="likes">
-        Likes content
+        <ComingSoonCard />
       </TabsContent>
     </Tabs>
   );
