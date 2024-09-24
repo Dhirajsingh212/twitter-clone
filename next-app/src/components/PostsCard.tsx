@@ -1,11 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { Post } from "@/types";
 import { ChartNoAxesColumnIncreasing } from "lucide-react";
@@ -38,6 +33,7 @@ const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
           </div>
         </CardHeader>
       </Link>
+      <p className="flex-wrap break-words p-6">{content}</p>
       <CardFooter className="flex justify-between items-center p-2 flex-wrap">
         <SessionCheck
           Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}

@@ -69,6 +69,28 @@ export async function fetchUserDetails(email: string) {
   }
 }
 
+export async function updateUsernameAndEmail(
+  email: string,
+  username: string,
+  oldEmail: string
+) {
+  try {
+    await prisma.user.update({
+      where: {
+        email: oldEmail,
+      },
+      data: {
+        username,
+        email,
+      },
+    });
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 export async function updateBio(
   id: number,
   bio: string,

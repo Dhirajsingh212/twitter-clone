@@ -74,7 +74,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
               </CardHeader>
               <CardFooter className="flex flex-col justify-between items-end p-6">
                 <div className="flex space-x-2 self-start">
-                  <InputImage />
+                  {/* <InputImage /> */}
                   {/* <Button variant="ghost" size="sm">
                     <Video />
                   </Button> */}

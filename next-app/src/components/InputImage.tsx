@@ -33,13 +33,24 @@ const MultipleImagePreview = () => {
   };
 
   const removeImage = (index: number) => {
+    console.log(imagePreviews);
     setImagePreviews((currentImages) =>
       currentImages.filter((img, i) => i !== index)
     );
   };
 
+  const clickHandler = async () => {
+    const files = imagePreviews;
+    if (files.length === 0) return;
+    const formData = new FormData();
+    imagePreviews.forEach((image, index) => {
+      formData.append(`images[${index}]`, image);
+    });
+  };
+
   return (
     <div>
+      <Button onClick={clickHandler}>Post Content</Button>
       <label htmlFor="fileinput" className="hover:cursor-pointer">
         <ImageIcon />
       </label>

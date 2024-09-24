@@ -13,7 +13,7 @@ const LogoutButton = () => {
       {session && session.status === "unauthenticated" && (
         <Button
           onClick={() => {
-            router.push("/");
+            router.push("/signin");
           }}
           className="flex flex-row items-center text-start p-0 bg-inherit dark:text-white shadow-none text-black text-xl hover:bg-inherit hover:text-blue-500 dark:hover:text-blue-500"
         >
