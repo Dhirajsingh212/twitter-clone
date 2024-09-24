@@ -32,6 +32,7 @@ export const NavbarItems = [
   {
     text: "Bookmarks",
     icon: <Bookmark className="mr-2 h-4 w-4" />,
+    Link: "/bookmarks",
   },
   {
     text: "Profile",

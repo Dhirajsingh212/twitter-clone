@@ -15,9 +15,6 @@ import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
-import { Image, Video } from "lucide-react";
-import { Input } from "./ui/input";
-import InputImage from "./InputImage";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
@@ -115,7 +112,6 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
               }}
               className="border w-full border-blue-500 text-center mt-4 text-blue-500 py-2"
             >
-              {findDiff(pollingPosts.length, allPosts.length)}
               <span className="pl-2">New posts.</span>
             </button>
           )}

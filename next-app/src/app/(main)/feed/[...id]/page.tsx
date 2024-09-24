@@ -1,5 +1,6 @@
 import { fetchSinglePostById } from "@/actions";
 import CommentDialog from "@/components/CommentDialog";
+import DeleteButton from "@/components/DeleteButton";
 import LikeButton from "@/components/LikeButton";
 import SessionCheck from "@/components/SessionCheck";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { RepeatIcon, ShareIcon } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function PostPage({
   params,
@@ -22,9 +24,18 @@ export default async function PostPage({
 }) {
   const singlePost = await fetchSinglePostById(Number(params.id[0]));
 
+  if (!singlePost) {
+    redirect("/feed");
+  }
+
   return (
     <div className="container max-w-2xl mx-auto p-2 sm:p-4 h-[90vh] overflow-y-scroll no-scrollbar">
       <Card className="mb-8">
+        <div className="flex flex-row justify-end pr-2 pt-2">
+          {singlePost && (
+            <DeleteButton id={singlePost?.user.id} postId={singlePost.id} />
+          )}
+        </div>
         <CardHeader className="flex flex-row items-center gap-4">
           <Link href={`/profile/${singlePost?.user.id}`}>
             <Avatar>

@@ -1,10 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { Post } from "@/types";
-import { ChartNoAxesColumnIncreasing } from "lucide-react";
 import Link from "next/link";
+import BookmarkButton from "./BookmarkButton";
 import CommentDialog from "./CommentDialog";
 import LikeButton from "./LikeButton";
 import SessionCheck from "./SessionCheck";
@@ -33,17 +32,14 @@ const PostsCard = ({ id, user, content, createdAt, _count, likes }: Post) => {
           </div>
         </CardHeader>
       </Link>
-      <p className="flex-wrap break-words p-6">{content}</p>
+      <p className="flex-wrap break-words p-6 line-clamp-4">{content}</p>
       <CardFooter className="flex justify-between items-center p-2 flex-wrap">
         <SessionCheck
           Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
         >
           <CommentDialog postId={id} commentCount={_count.comments} />
           <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
-          <Button variant="ghost" size="sm" className="flex items-center">
-            <ChartNoAxesColumnIncreasing className="size-4 " />
-            <span className="pl-2 text-xs sm:text-sm lg:text-base">2.6K</span>
-          </Button>
+          <BookmarkButton postId={id} />
           <ShareButton id={id} />
         </SessionCheck>
       </CardFooter>

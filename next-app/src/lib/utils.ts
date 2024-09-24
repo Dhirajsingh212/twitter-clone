@@ -22,8 +22,5 @@ export function compareLikeId(
 }
 
 export function findDiff(pollingPostLength: number, allPostLength: number) {
-  if (pollingPostLength >= allPostLength) {
-    return pollingPostLength - allPostLength;
-  }
-  return 0;
+  return Math.abs(pollingPostLength - allPostLength);
 }

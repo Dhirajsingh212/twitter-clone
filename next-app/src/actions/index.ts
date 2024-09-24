@@ -118,6 +118,33 @@ export async function updateBio(
 
 // ************************TWEET**********************************//
 
+export async function deleteTweet(postId: number) {
+  try {
+    await prisma.like.deleteMany({
+      where: {
+        tweetId: postId,
+      },
+    });
+
+    await prisma.comment.deleteMany({
+      where: {
+        tweetId: postId,
+      },
+    });
+
+    await prisma.tweet.deleteMany({
+      where: {
+        id: postId,
+      },
+    });
+    revalidatePath("/feed");
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 export async function postTweet(userId: number, message: string) {
   try {
     await prisma.tweet.create({
@@ -428,6 +455,26 @@ export async function unfollowUser(followId: number, userId: number) {
       },
     });
     revalidatePath(`/profile/${followId}`);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
+// **************************************************************//
+
+// ********************BOOKMARKS*********************************//
+
+export async function addBookmark(userId: number, postId: number) {
+  try {
+    await prisma.bookmark.create({
+      data: {
+        userId,
+        tweetId: postId,
+      },
+    });
+    revalidatePath("/bookmarks");
     return true;
   } catch (err) {
     console.log(err);

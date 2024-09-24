@@ -1,14 +1,13 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { NavbarItems } from "@/resource";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import LogoutButton from "./LogoutButton";
 import { NavbarMenu } from "./NavbarMenu";
+import SessionCheck from "./SessionCheck";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import LogoutButton from "./LogoutButton";
-import SessionCheck from "./SessionCheck";
-import ButtonSkeleton from "@/skeletons/ButtonSkeleton";
 import { Skeleton } from "./ui/skeleton";
 
 const LeftNavbar = () => {
