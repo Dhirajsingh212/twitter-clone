@@ -80,7 +80,10 @@ const LeftNavbar = () => {
           </Link>
         </div>
 
-        <NavbarMenu />
+        <div className="flex flex-row gap-2 items-center lg:hidden">
+          <ThemeToggleButton />
+          <NavbarMenu />
+        </div>
       </nav>
     </aside>
   );

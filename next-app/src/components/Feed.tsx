@@ -15,6 +15,7 @@ import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
+import ComingSoonCard from "./ComingSoonCard";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
@@ -133,9 +134,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
           </div>
         </TabsContent>
         <TabsContent value="following" className="min-h-[86vh]">
-          <p className="text-center py-4">
-            Content from accounts you follow will appear here.
-          </p>
+          <ComingSoonCard />
         </TabsContent>
       </Tabs>
     </main>

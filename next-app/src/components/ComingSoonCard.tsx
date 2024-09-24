@@ -14,7 +14,7 @@ export default function ComingSoonCard() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto overflow-hidden">
+    <Card className="w-full max-w-full  overflow-hidden">
       <CardContent className="pt-6 pb-4 px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export default function ComingSoonCard() {
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ repeat: Infinity, duration: 2 }}
           >
-            Hold Tight!
+            {"Hold Tight!"}
           </motion.h2>
           <motion.p
             className="text-lg text-muted-foreground"
@@ -35,7 +35,7 @@ export default function ComingSoonCard() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            We're cooking up something amazing.
+            {" We're cooking up something amazing."}
           </motion.p>
           <motion.div
             className="relative h-24"
@@ -81,7 +81,7 @@ export default function ComingSoonCard() {
                 onClick={handleNotifyMe}
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
               >
-                Notify me when it's ready
+                {"Notify me when it's ready"}
               </Button>
             </motion.div>
           ) : (
@@ -93,7 +93,7 @@ export default function ComingSoonCard() {
               className="text-center"
             >
               <p className="text-green-600 font-semibold">
-                Thank you! We'll keep you posted.
+                {"Thank you! We'll keep you posted."}
               </p>
             </motion.div>
           )}

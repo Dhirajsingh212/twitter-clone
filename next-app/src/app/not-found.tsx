@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
-// Define the type for box objects
 type Box = {
   id: number;
   x: number;
@@ -136,6 +136,9 @@ export default function Component() {
         transition={{ delay: 1, duration: 0.8 }}
       >
         © {new Date().getFullYear()} Your Company Name. All rights reserved.
+        <Link href="/feed" className="text-blue-500 font-bold">
+          Home
+        </Link>
       </motion.div>
     </div>
   );

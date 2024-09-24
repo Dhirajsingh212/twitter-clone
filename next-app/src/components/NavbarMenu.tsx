@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NavbarItems } from "@/resource";
+import Link from "next/link";
 
 export function NavbarMenu() {
   return (
@@ -20,10 +21,12 @@ export function NavbarMenu() {
       <DropdownMenuContent className="lg:hidden w-56">
         {NavbarItems.map((element, index) => {
           return (
-            <DropdownMenuItem key={index}>
-              {element.icon}
-              <span>{element.text}</span>
-            </DropdownMenuItem>
+            <Link href={element.Link} key={index}>
+              <DropdownMenuItem>
+                {element.icon}
+                <span>{element.text}</span>
+              </DropdownMenuItem>
+            </Link>
           );
         })}
       </DropdownMenuContent>
