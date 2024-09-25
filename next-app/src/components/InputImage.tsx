@@ -13,7 +13,7 @@ import Spinner from "./Spinner";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
-const MultipleImagePreview = () => {
+const InputImage = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleImageChange = (event: any) => {
@@ -110,4 +110,4 @@ const MultipleImagePreview = () => {
   );
 };
 
-export default MultipleImagePreview;
+export default InputImage;

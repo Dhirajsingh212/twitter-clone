@@ -1,10 +1,11 @@
 import { fetchSinglePostById } from "@/actions";
+import BookmarkButton from "@/components/BookmarkButton";
 import CommentDialog from "@/components/CommentDialog";
 import DeleteButton from "@/components/DeleteButton";
 import LikeButton from "@/components/LikeButton";
 import SessionCheck from "@/components/SessionCheck";
+import ShareButton from "@/components/ShareButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateToHrsAgo } from "@/lib/date";
-import { RepeatIcon, ShareIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -76,13 +76,13 @@ export default async function PostPage({
                 commentCount={singlePost._count.comments}
               />
             )}
-            <Button variant="ghost" size="sm">
-              <RepeatIcon className="w-4 h-4 mr-2" />
-              20
-            </Button>
-            <Button variant="ghost" size="sm">
-              <ShareIcon className="w-4 h-4" />
-            </Button>
+            {singlePost && (
+              <BookmarkButton
+                postId={singlePost.id}
+                allBookmarks={singlePost.bookmarks}
+              />
+            )}
+            <ShareButton id={""} />
           </SessionCheck>
         </CardFooter>
       </Card>

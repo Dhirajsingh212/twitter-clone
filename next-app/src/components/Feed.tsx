@@ -10,12 +10,13 @@ import { Post } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
+import ComingSoonCard from "./ComingSoonCard";
 import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
-import ComingSoonCard from "./ComingSoonCard";
+import InputImage from "./InputImage";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
@@ -84,7 +85,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                     try {
                       setIsLoading(true);
                       if (postText.length === 0) {
-                        toast.warning("Post cannot be empty.");
+                        toast.error("Post cannot be empty.");
                         return;
                       }
                       await postTweet(

@@ -2,9 +2,9 @@
 import { Share2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
-const ShareButton = ({ id }: { id: number }) => {
+const ShareButton = ({ id }: { id: number | "" }) => {
   const path = usePathname();
   return (
     <Button

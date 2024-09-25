@@ -2,7 +2,7 @@
 import { Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { deleteBookmarkById } from "@/actions";
 import { useState } from "react";
 

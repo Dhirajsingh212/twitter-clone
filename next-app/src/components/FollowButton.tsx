@@ -3,7 +3,7 @@ import { followUser, unfollowUser } from "@/actions";
 import { compareFollowerId } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 

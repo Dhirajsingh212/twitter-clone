@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { Toaster } from "sonner";
 import TopLoader from "@/components/TopLoader";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,11 +33,23 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class">
           <Toaster
-            richColors
-            position="top-center"
-            expand
-            visibleToasts={1}
-            offset="15px"
+            position="top-right"
+            toastOptions={{
+              success: {
+                style: {
+                  background: "white",
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                },
+              },
+              error: {
+                style: {
+                  background: "white",
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                },
+              },
+            }}
           />
           <TopLoader />
 

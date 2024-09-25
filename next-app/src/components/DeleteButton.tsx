@@ -3,7 +3,7 @@ import { Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { deleteTweet } from "@/actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

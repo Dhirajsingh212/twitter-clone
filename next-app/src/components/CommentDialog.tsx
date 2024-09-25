@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { MessageCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Spinner from "./Spinner";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { postComment } from "@/actions";
 
 export default function CommentDialog({

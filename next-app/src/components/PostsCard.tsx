@@ -39,10 +39,10 @@ const PostsCard = ({
             </p>
           </div>
         </CardHeader>
+        <p className="flex-wrap break-words p-6 line-clamp-4 text-lg sm:text-lg">
+          {content}
+        </p>
       </Link>
-      <p className="flex-wrap break-words p-6 line-clamp-4 text-lg sm:text-lg">
-        {content}
-      </p>
       <CardFooter className="flex justify-between items-center p-2 flex-wrap">
         <SessionCheck
           Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}

@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ProfileBioInputs } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
 
@@ -48,7 +48,7 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
       setIsLoading(true);
       const { bio, location, link } = inputForm;
       if (bio.length === 0 && location.length === 0 && link.length === 0) {
-        toast.warning("Empty changes cannot be applied.");
+        toast.error("Empty changes cannot be applied.");
         return;
       }
 
@@ -62,7 +62,7 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
       }
 
       if (bio.length > 160 || location.length > 20 || link.length > 60) {
-        toast.warning("Characters should be in limit.");
+        toast.error("Characters should be in limit.");
         return;
       }
 

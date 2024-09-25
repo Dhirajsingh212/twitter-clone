@@ -4,7 +4,7 @@ import { cn, compareLikeId } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { Button } from "./ui/button";
 
 const LikeButton = ({

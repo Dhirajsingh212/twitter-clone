@@ -120,22 +120,30 @@ export async function updateBio(
 
 export async function deleteTweet(postId: number) {
   try {
-    await prisma.like.deleteMany({
-      where: {
-        tweetId: postId,
-      },
-    });
+    await prisma.$transaction(async (prisma) => {
+      await prisma.bookmark.deleteMany({
+        where: {
+          tweetId: postId,
+        },
+      });
 
-    await prisma.comment.deleteMany({
-      where: {
-        tweetId: postId,
-      },
-    });
+      await prisma.like.deleteMany({
+        where: {
+          tweetId: postId,
+        },
+      });
 
-    await prisma.tweet.deleteMany({
-      where: {
-        id: postId,
-      },
+      await prisma.comment.deleteMany({
+        where: {
+          tweetId: postId,
+        },
+      });
+
+      await prisma.tweet.deleteMany({
+        where: {
+          id: postId,
+        },
+      });
     });
     revalidatePath("/feed");
     return true;
@@ -318,6 +326,12 @@ export async function fetchSinglePostById(postId: number) {
         content: true,
         createdAt: true,
         updatedAt: true,
+        bookmarks: {
+          select: {
+            tweetId: true,
+            userId: true,
+          },
+        },
         user: {
           select: {
             username: true,

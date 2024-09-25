@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import Spinner from "./Spinner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -53,7 +53,7 @@ const SigninForm = () => {
       toast.success("LoggedIn successful!");
       router.push("/feed");
     } catch (error) {
-      toast.error((error as ResponseObj).message);
+      toast.error(`${(error as ResponseObj).message}`);
     } finally {
       setIsLoading(false);
     }
