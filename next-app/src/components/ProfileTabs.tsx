@@ -2,8 +2,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Post } from "@/types";
 import { useState } from "react";
-import PostsCard from "./PostsCard";
 import ComingSoonCard from "./ComingSoonCard";
+import PostsCard from "./PostsCard";
 
 const ProfileTabs = ({ posts }: { posts: Post[] }) => {
   const [activeTab, setActiveTab] = useState("posts");
