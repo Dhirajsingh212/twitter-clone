@@ -38,6 +38,8 @@ export default function RootLayout({
               success: {
                 style: {
                   background: "white",
+                  // background: "#16a34a",
+                  // color: "white",
                   fontWeight: "bold",
                   textTransform: "capitalize",
                 },
@@ -45,6 +47,8 @@ export default function RootLayout({
               error: {
                 style: {
                   background: "white",
+                  // background: "#e11d48",
+                  // color: "white",
                   fontWeight: "bold",
                   textTransform: "capitalize",
                 },
