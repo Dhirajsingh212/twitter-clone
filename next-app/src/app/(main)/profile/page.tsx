@@ -20,7 +20,7 @@ export default async function FullXProfile() {
   const userPosts = await fetchUserAllPost((session as any).user.email);
 
   return (
-    <div className="flex flex-col h-[90vh] no-scrollbar overflow-y-scroll">
+    <div className="flex flex-col h-[90vh] no-scrollbar overflow-y-scroll lg:w-1/2">
       <div className="w-full text-gray-900 dark:text-gray-100 transition-colors duration-200">
         <div className="max-w-6xl mx-auto flex">
           <div className="flex-grow max-w-2xl lg:p-4">

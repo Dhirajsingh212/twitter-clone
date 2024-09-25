@@ -8,7 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { findDiff } from "@/lib/utils";
 import { Post } from "@/types";
 import axios from "axios";
+import { Image } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { CldUploadButton } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import ComingSoonCard from "./ComingSoonCard";
@@ -16,11 +18,11 @@ import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
-import InputImage from "./InputImage";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
   const [postText, setPostText] = useState<string>("");
+  const [postUrl, setPostUrl] = useState<string[]>([]);
   const [allPosts, setAllPosts] = useState<Post[]>([...dbPosts]);
   const [pollingPosts, setPollingPosts] = useState<Post[]>([...dbPosts]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -73,6 +75,24 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
               </CardHeader>
               <CardFooter className="flex flex-col justify-between items-end p-6">
                 <div className="flex space-x-2 self-start">
+                  <CldUploadButton
+                    options={{ maxFiles: 4 }}
+                    onSuccess={(result) => {
+                      setPostUrl((prev: string[]) => {
+                        return [...prev, (result.info as any).url];
+                      });
+                    }}
+                    uploadPreset={
+                      process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME
+                    }
+                  >
+                    <p className="flex flex-row gap-2 items-center">
+                      <Image />
+                      {postUrl.length > 0 && (
+                        <span>{postUrl.length} Photos uploaded.</span>
+                      )}
+                    </p>
+                  </CldUploadButton>
                   {/* <InputImage /> */}
                   {/* <Button variant="ghost" size="sm">
                     <Video />
@@ -90,10 +110,12 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                       }
                       await postTweet(
                         Number((session.data?.user as any).id),
-                        postText
+                        postText,
+                        postUrl
                       );
                       toast.success("Posted successfully.");
                       setPostText("");
+                      setPostUrl([]);
                     } catch (err) {
                       console.log(err);
                       toast.error("Something went wrong");
@@ -130,6 +152,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                 _count={post._count}
                 likes={post.likes}
                 bookmarks={post.bookmarks}
+                media={post.media}
               />
             ))}
           </div>

@@ -36,6 +36,15 @@ model Tweet {
   likes     Like[]
   comments  Comment[]
   bookmarks Bookmark[]
+  media     Media[]  @relation("TweetMedia")
+}
+
+model Media {
+  id        Int      @id @default(autoincrement())
+  type      String   @default("photo") 
+  url       String
+  tweet     Tweet    @relation("TweetMedia", fields: [tweetId], references: [id])
+  tweetId   Int
 }
 
 model Like {

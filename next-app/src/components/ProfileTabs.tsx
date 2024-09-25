@@ -38,6 +38,7 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
               _count={tweet._count}
               likes={tweet.likes}
               bookmarks={tweet.bookmarks}
+              media={tweet.media}
             />
           ))}
         </div>

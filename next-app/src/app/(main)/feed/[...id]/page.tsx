@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateToHrsAgo } from "@/lib/date";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -61,6 +62,21 @@ export default async function PostPage({
           <p className="text-xl mb-4 flex-wrap break-words">
             {singlePost && singlePost.content}
           </p>
+        </CardContent>
+        <CardContent className="grid grid-cols-2 gap-2">
+          {singlePost &&
+            singlePost.media.map((element, index) => {
+              return (
+                <Image
+                  key={index}
+                  height={1000}
+                  width={1000}
+                  alt=""
+                  src={element.url}
+                  className="h-full w-full rounded-lg object-cover"
+                ></Image>
+              );
+            })}
         </CardContent>
         <CardFooter className="flex justify-between p-6">
           <SessionCheck Fallback={<Skeleton className="w-full h-10" />}>

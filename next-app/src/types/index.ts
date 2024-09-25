@@ -27,6 +27,9 @@ export interface Post {
   createdAt: string | Date;
   updatedAt: string | Date;
   userId: number;
+  media?: {
+    url: string;
+  }[];
   bookmarks?: {
     userId: number;
     tweetId: number;

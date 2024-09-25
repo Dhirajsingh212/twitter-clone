@@ -121,6 +121,12 @@ export async function updateBio(
 export async function deleteTweet(postId: number) {
   try {
     await prisma.$transaction(async (prisma) => {
+      await prisma.media.deleteMany({
+        where: {
+          tweetId: postId,
+        },
+      });
+
       await prisma.bookmark.deleteMany({
         where: {
           tweetId: postId,
@@ -153,18 +159,38 @@ export async function deleteTweet(postId: number) {
   }
 }
 
-export async function postTweet(userId: number, message: string) {
+export async function postTweet(
+  userId: number,
+  message: string,
+  mediaUrls: string[]
+) {
   try {
-    await prisma.tweet.create({
+    // Check if mediaUrls are valid
+    if (!mediaUrls || mediaUrls.length === 0) {
+      throw new Error("Media URLs cannot be empty.");
+    }
+
+    const tweet = await prisma.tweet.create({
       data: {
         content: message,
         userId: userId,
+        media: {
+          create: mediaUrls.map((url) => ({
+            url,
+          })),
+        },
+      },
+      include: {
+        media: true,
       },
     });
+
+    console.log(tweet);
+
     revalidatePath("/feed");
     return true;
   } catch (err) {
-    console.log(err);
+    console.error("Error creating tweet:", err);
     return false;
   }
 }
@@ -181,6 +207,11 @@ export async function fetchPosts() {
         id: true,
         createdAt: true,
         updatedAt: true,
+        media: {
+          select: {
+            url: true,
+          },
+        },
         bookmarks: {
           select: {
             userId: true,
@@ -279,6 +310,11 @@ export async function fetchUserAllPost(email: string) {
         id: true,
         createdAt: true,
         updatedAt: true,
+        media: {
+          select: {
+            url: true,
+          },
+        },
         bookmarks: {
           select: {
             userId: true,
@@ -326,6 +362,11 @@ export async function fetchSinglePostById(postId: number) {
         content: true,
         createdAt: true,
         updatedAt: true,
+        media: {
+          select: {
+            url: true,
+          },
+        },
         bookmarks: {
           select: {
             tweetId: true,
@@ -576,3 +617,27 @@ export async function fetchUserBookmark(email: string) {
 }
 
 // **************************************************************//
+
+// ***********************IMAGE UPLOAD******************************//
+
+// const cloudinaryConfig = cloudinary.config({
+//   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+//   secure: true,
+// });
+
+// export async function getSignature() {
+//   const timestamp = Math.round(new Date().getTime() / 1000);
+
+//   const signature = cloudinary.utils.api_sign_request(
+//     { timestamp, folder: "twitter_clone" },
+//     cloudinaryConfig.api_secret || ""
+//   );
+
+//   const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
+
+//   return { timestamp, signature, uploadPreset };
+// }
+
+// ****************************************************************//
