@@ -18,7 +18,7 @@ const BookmarkCard = ({ id, user, content, createdAt, media }: Bookmark) => {
       <Link href={`/feed/${id}`}>
         <CardHeader className="flex flex-row items-center space-x-4 p-4">
           <Avatar>
-            <AvatarImage src={`https://i.pravatar.cc/150?img=${id}`} />
+            {user && user.profilePic && <AvatarImage src={user.profilePic} />}
             <AvatarFallback>UN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">

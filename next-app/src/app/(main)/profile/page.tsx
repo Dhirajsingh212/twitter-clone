@@ -32,13 +32,15 @@ export default async function FullXProfile() {
                 alt="Profile banner"
                 className="w-full h-48 object-cover"
               />
-              <Image
-                width={1000}
-                height={1000}
-                src={profileDefualtImage2}
-                alt="Profile picture"
-                className="absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
-              />
+              {userDetails && (
+                <Image
+                  width={1000}
+                  height={1000}
+                  src={userDetails?.profilePic}
+                  alt="Profile picture"
+                  className="absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
+                />
+              )}
             </div>
 
             {/* Profile Info */}

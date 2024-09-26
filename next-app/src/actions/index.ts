@@ -20,6 +20,7 @@ export async function fetchUserDetailsById(userId: number) {
         link: true,
         createdAt: true,
         updatedAt: true,
+        profilePic: true,
         _count: {
           select: {
             followers: true,
@@ -51,6 +52,7 @@ export async function fetchUserDetails(email: string) {
         username: true,
         email: true,
         bio: true,
+        profilePic: true,
         location: true,
         link: true,
         createdAt: true,
@@ -247,6 +249,7 @@ export async function fetchPosts() {
         user: {
           select: {
             username: true,
+            profilePic: true,
           },
         },
         _count: {
@@ -291,6 +294,7 @@ export async function fetchUserAllPostById(userId: number) {
         user: {
           select: {
             username: true,
+            profilePic: true,
           },
         },
         _count: {
@@ -350,6 +354,7 @@ export async function fetchUserAllPost(email: string) {
         user: {
           select: {
             username: true,
+            profilePic: true,
           },
         },
         _count: {
@@ -402,6 +407,7 @@ export async function fetchSinglePostById(postId: number) {
         user: {
           select: {
             username: true,
+            profilePic: true,
             id: true,
           },
         },
@@ -422,6 +428,7 @@ export async function fetchSinglePostById(postId: number) {
             user: {
               select: {
                 username: true,
+                profilePic: true,
               },
             },
           },
@@ -628,6 +635,7 @@ export async function fetchUserBookmark(email: string) {
               select: {
                 username: true,
                 id: true,
+                profilePic: true,
               },
             },
             _count: {

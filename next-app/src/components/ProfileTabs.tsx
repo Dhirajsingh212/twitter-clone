@@ -34,7 +34,7 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
               createdAt={tweet.createdAt}
               updatedAt={tweet.updatedAt}
               userId={tweet.userId}
-              user={{ username: "" }}
+              user={tweet.user}
               _count={tweet._count}
               likes={tweet.likes}
               bookmarks={tweet.bookmarks}

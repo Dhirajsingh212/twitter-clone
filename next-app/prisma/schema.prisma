@@ -9,21 +9,22 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  bio       String   @default("")
-  location  String   @default("")
-  link      String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  tweets    Tweet[]
-  likes     Like[]
-  comments  Comment[]
-  followers Follow[] @relation("follower")
-  following Follow[] @relation("following")
-  bookmarks Bookmark[]
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  email       String   @unique
+  password    String
+  profilePic  String   @default("https://res.cloudinary.com/djnc80otm/image/upload/v1727369267/szstkgsxuhrnwixuvi1s.avif")
+  bio         String   @default("")
+  location    String   @default("")
+  link        String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tweets      Tweet[]
+  likes       Like[]
+  comments    Comment[]
+  followers   Follow[] @relation("follower")
+  following   Follow[] @relation("following")
+  bookmarks   Bookmark[]
 }
 
 model Tweet {

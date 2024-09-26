@@ -34,7 +34,7 @@ const PostsCard = ({
       <Link href={`/feed/${id}`}>
         <CardHeader className="flex flex-row items-center space-x-4 p-4">
           <Avatar>
-            <AvatarImage src={`https://i.pravatar.cc/150?img=${id}`} />
+            <AvatarImage src={user.profilePic} />
             <AvatarFallback>UN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">

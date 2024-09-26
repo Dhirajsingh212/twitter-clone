@@ -11,6 +11,7 @@ export interface Bookmark {
   user: {
     username: string;
     id?: number;
+    profilePic?: string;
   };
   content: string;
   media?: {
@@ -24,6 +25,7 @@ export interface Post {
   id: number;
   user: {
     username: string;
+    profilePic?: string;
     id?: number;
   };
   content: string;

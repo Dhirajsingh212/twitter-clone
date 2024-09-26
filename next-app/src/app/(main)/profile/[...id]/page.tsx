@@ -37,7 +37,7 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
               <Image
                 width={1000}
                 height={1000}
-                src={profileDefualtImage2}
+                src={userDetails.profilePic}
                 alt="Profile picture"
                 className="absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
               />

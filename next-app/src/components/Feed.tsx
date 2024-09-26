@@ -81,10 +81,6 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
             <Card className="bg-transparent shadow-none border-2">
               <CardHeader>
                 <div className="flex space-x-4">
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
                   <Textarea
                     placeholder="What's happening?"
                     value={postText}

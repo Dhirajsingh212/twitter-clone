@@ -20,6 +20,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
+import ProfileImagePreview from "./ProfileImagePreview";
 
 export default function ProfileBioDialog(props: ProfileBioInputs) {
   const [inputForm, setInputForm] = useState<ProfileBioInputs>({
@@ -27,6 +28,7 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
     location: props.location,
     link: props.link,
   });
+  const [image, setImage] = useState([]);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -141,6 +143,13 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
               type="url"
               className="focus-visible:ring-0"
             />
+          </div>
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="link">
+              Profile picture
+              <span className="text-gray-600 pl-1">{"(Max of 1 Image.)"}</span>
+            </Label>
+            <ProfileImagePreview images={image} setImages={setImage} />
           </div>
         </div>
         <DialogFooter>
