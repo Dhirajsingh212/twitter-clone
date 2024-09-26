@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Button } from "./ui/button";
+import { motion } from "framer-motion";
 
 const LikeButton = ({
   postId,
@@ -43,12 +44,27 @@ const LikeButton = ({
 
   return (
     <Button variant="ghost" size="sm" onClick={handleClick}>
-      <Heart
-        className={cn("size-4", {
-          "text-green-500": isLiked,
-        })}
-      />
-      <span className="pl-2">{likeCount}</span>
+      <motion.div
+        animate={{
+          scale: isLiked ? [1, 1.2, 1] : 1,
+          rotate: isLiked ? [0, -10, 10, 0] : 0,
+        }}
+        className="flex flex-row gap-2"
+        transition={{ duration: 0.5 }}
+      >
+        <Heart
+          className={cn("size-4", {
+            "text-green-500 fill-green-500": isLiked,
+          })}
+        />
+        <motion.span
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="font-semibold "
+        >
+          {likeCount}
+        </motion.span>
+      </motion.div>
     </Button>
   );
 };

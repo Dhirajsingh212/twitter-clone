@@ -40,7 +40,7 @@ const BookmarkButton = ({
     <>
       {isLiked ? (
         <Button variant="ghost" size="sm">
-          <Bookmark className="size-4 text-rose-500" />
+          <Bookmark className="size-4 text-rose-500 fill-rose-500" />
         </Button>
       ) : (
         <Button

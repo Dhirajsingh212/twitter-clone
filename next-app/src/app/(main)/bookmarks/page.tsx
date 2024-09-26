@@ -15,6 +15,9 @@ const Bookmarks = async () => {
 
   return (
     <div className="mx-auto overflow-y-scroll h-[90vh] no-scrollbar lg:w-1/2 w-full">
+      {bookmarkData && bookmarkData.length === 0 && (
+        <p className="py-4 text-xl text-center">No bookmarks.</p>
+      )}
       {bookmarkData &&
         bookmarkData.map((element: { tweet: Bookmark }) => {
           return (
