@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/db/db";
 import { revalidatePath } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
 
 // ************************USERS**********************************//
 
@@ -118,9 +119,34 @@ export async function updateBio(
 
 // ************************TWEET**********************************//
 
+async function deleteImage(urls: { url: string }[]) {
+  await Promise.all(
+    urls.map(async (el) => {
+      const res = await fetch(
+        `http://localhost:3000/api/upload/?url=${el.url}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const deletedImageData = await res.json();
+    })
+  );
+}
+
 export async function deleteTweet(postId: number) {
   try {
     await prisma.$transaction(async (prisma) => {
+      const mediaData = await prisma.media.findMany({
+        where: {
+          tweetId: postId,
+        },
+        select: {
+          url: true,
+        },
+      });
+
+      await deleteImage(mediaData);
+
       await prisma.media.deleteMany({
         where: {
           tweetId: postId,
@@ -152,6 +178,7 @@ export async function deleteTweet(postId: number) {
       });
     });
     revalidatePath("/feed");
+    revalidatePath(`/feed/${postId}`);
     return true;
   } catch (err) {
     console.log(err);
@@ -165,18 +192,13 @@ export async function postTweet(
   mediaUrls: string[]
 ) {
   try {
-    // Check if mediaUrls are valid
-    if (!mediaUrls || mediaUrls.length === 0) {
-      throw new Error("Media URLs cannot be empty.");
-    }
-
     const tweet = await prisma.tweet.create({
       data: {
         content: message,
         userId: userId,
         media: {
           create: mediaUrls.map((url) => ({
-            url,
+            url: url,
           })),
         },
       },
@@ -184,8 +206,6 @@ export async function postTweet(
         media: true,
       },
     });
-
-    console.log(tweet);
 
     revalidatePath("/feed");
     return true;
@@ -362,6 +382,12 @@ export async function fetchSinglePostById(postId: number) {
         content: true,
         createdAt: true,
         updatedAt: true,
+        likes: {
+          select: {
+            tweetId: true,
+            userId: true,
+          },
+        },
         media: {
           select: {
             url: true,
@@ -593,6 +619,11 @@ export async function fetchUserBookmark(email: string) {
             content: true,
             createdAt: true,
             updatedAt: true,
+            media: {
+              select: {
+                url: true,
+              },
+            },
             user: {
               select: {
                 username: true,

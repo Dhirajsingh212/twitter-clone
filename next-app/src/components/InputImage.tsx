@@ -8,14 +8,12 @@ import {
 } from "@/components/ui/carousel";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import Spinner from "./Spinner";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
-const InputImage = () => {
-  const [imagePreviews, setImagePreviews] = useState([]);
-
+const InputImage = ({ images, setImages }: any) => {
   const handleImageChange = (event: any) => {
     const files = Array.from(event.target.files);
     const imagePreviewsArray: any = [];
@@ -25,7 +23,7 @@ const InputImage = () => {
       reader.onloadend = () => {
         imagePreviewsArray.push(reader.result);
         if (imagePreviewsArray.length === files.length) {
-          setImagePreviews(imagePreviewsArray);
+          setImages(imagePreviewsArray);
         }
       };
       reader.readAsDataURL(file);
@@ -33,26 +31,19 @@ const InputImage = () => {
   };
 
   const removeImage = (index: number) => {
-    console.log(imagePreviews);
-    setImagePreviews((currentImages) =>
-      currentImages.filter((img, i) => i !== index)
+    setImages((currentImages: any) =>
+      currentImages.filter((img: any, i: number) => i !== index)
     );
-  };
-
-  const clickHandler = async () => {
-    const files = imagePreviews;
-    if (files.length === 0) return;
-    const formData = new FormData();
-    imagePreviews.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
-    });
   };
 
   return (
     <div>
-      <Button onClick={clickHandler}>Post Content</Button>
-      <label htmlFor="fileinput" className="hover:cursor-pointer">
+      <label
+        htmlFor="fileinput"
+        className="hover:cursor-pointer flex flex-row gap-2 items-center"
+      >
         <ImageIcon />
+        {images.length > 0 && <p>{images.length} Images.</p>}
       </label>
       <input
         className="hidden"
@@ -63,11 +54,11 @@ const InputImage = () => {
         onChange={handleImageChange}
       />
       <Suspense fallback={<Spinner />}>
-        {imagePreviews.length > 0 && (
+        {images.length > 0 && (
           <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ">
             <Carousel className="w-full">
               <CarouselContent className="-ml-1 flex-col">
-                {imagePreviews.map((image, index) => (
+                {images.map((image: any, index: number) => (
                   <CarouselItem
                     key={index}
                     className="pl-1 basis-full sm:basis-1/2 lg:basis-1/3"

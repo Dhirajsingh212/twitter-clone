@@ -25,6 +25,7 @@ const Bookmarks = async () => {
               createdAt={element.tweet.createdAt}
               updatedAt={element.tweet.updatedAt}
               user={element.tweet.user}
+              media={element.tweet.media}
             />
           );
         })}

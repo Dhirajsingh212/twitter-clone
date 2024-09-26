@@ -33,7 +33,7 @@ const DeleteButton = ({ id, postId }: { id: number; postId: number }) => {
               setIsLoading(true);
               if (await deleteTweet(postId)) {
                 toast.success("deleted.");
-                router.push("/feed");
+                router.push("/");
               } else {
                 toast.error("Something went wrong");
               }

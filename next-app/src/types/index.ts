@@ -13,6 +13,9 @@ export interface Bookmark {
     id?: number;
   };
   content: string;
+  media?: {
+    url: string;
+  }[];
   createdAt: string | Date;
   updatedAt: string | Date;
 }

@@ -84,6 +84,7 @@ export default async function PostPage({
               <LikeButton
                 postId={singlePost?.id}
                 likeCount={singlePost?._count.likes}
+                allLikes={singlePost.likes}
               />
             )}
             {singlePost && (

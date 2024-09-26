@@ -8,12 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { findDiff } from "@/lib/utils";
 import { Post } from "@/types";
 import axios from "axios";
-import { Image } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { CldUploadButton } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import ComingSoonCard from "./ComingSoonCard";
+import InputImage from "./InputImage";
 import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
@@ -22,10 +21,10 @@ import { Skeleton } from "./ui/skeleton";
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
   const [postText, setPostText] = useState<string>("");
-  const [postUrl, setPostUrl] = useState<string[]>([]);
   const [allPosts, setAllPosts] = useState<Post[]>([...dbPosts]);
   const [pollingPosts, setPollingPosts] = useState<Post[]>([...dbPosts]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [images, setImages] = useState<any>([]);
 
   useEffect(() => {
     setAllPosts([...dbPosts]);
@@ -41,6 +40,29 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
 
     return () => clearInterval(interval);
   }, [pollingPosts]);
+
+  async function uploadImages(images: any) {
+    const files = images;
+    if (files?.length > 0) {
+      let data = new FormData();
+      for (const file of files) {
+        data.append("file", file);
+      }
+      data.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME || ""
+      );
+      const res = await fetch(`/api/upload`, {
+        method: "POST",
+        body: data,
+      });
+      const imageResponse = await res.json();
+      if (imageResponse.status !== 200) {
+        throw new Error(imageResponse.message);
+      }
+      return imageResponse;
+    }
+  }
 
   return (
     <main className="lg:w-1/2 border-x border-y py-2 rounded-lg border-gray-200 dark:border-gray-800 px-4 ">
@@ -73,33 +95,13 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                   />
                 </div>
               </CardHeader>
+              <div className="px-6">
+                <InputImage images={images} setImages={setImages} />
+              </div>
               <CardFooter className="flex flex-col justify-between items-end p-6">
-                <div className="flex space-x-2 self-start">
-                  <CldUploadButton
-                    options={{ maxFiles: 4 }}
-                    onSuccess={(result) => {
-                      setPostUrl((prev: string[]) => {
-                        return [...prev, (result.info as any).url];
-                      });
-                    }}
-                    uploadPreset={
-                      process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME
-                    }
-                  >
-                    <p className="flex flex-row gap-2 items-center">
-                      <Image />
-                      {postUrl.length > 0 && (
-                        <span>{postUrl.length} Photos uploaded.</span>
-                      )}
-                    </p>
-                  </CldUploadButton>
-                  {/* <InputImage /> */}
-                  {/* <Button variant="ghost" size="sm">
-                    <Video />
-                  </Button> */}
-                </div>
+                <div className="flex space-x-2 self-start"></div>
                 <Button
-                  className="bg-blue-500 text-white hover:bg-blue-400 "
+                  className="bg-blue-500 text-white hover:bg-blue-400"
                   disabled={isLoading}
                   onClick={async () => {
                     try {
@@ -108,14 +110,25 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                         toast.error("Post cannot be empty.");
                         return;
                       }
+
+                      let urls: string[] = [];
+
+                      if (images.length > 0) {
+                        const imageResponse = await uploadImages(images);
+                        urls = imageResponse.uploadedImagesData.map(
+                          (element: any) => element.url
+                        );
+                      }
+
                       await postTweet(
                         Number((session.data?.user as any).id),
                         postText,
-                        postUrl
+                        urls
                       );
+
                       toast.success("Posted successfully.");
                       setPostText("");
-                      setPostUrl([]);
+                      setImages([]);
                     } catch (err) {
                       console.log(err);
                       toast.error("Something went wrong");

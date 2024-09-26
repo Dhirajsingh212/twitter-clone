@@ -1,12 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { Bookmark } from "@/types";
 import Link from "next/link";
 import DeleteBookmarkButton from "./DeleteBookmarkButton";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
-const BookmarkCard = ({ id, user, content, createdAt }: Bookmark) => {
+const BookmarkCard = ({ id, user, content, createdAt, media }: Bookmark) => {
   return (
     <Card
       key={id}
@@ -31,6 +32,21 @@ const BookmarkCard = ({ id, user, content, createdAt }: Bookmark) => {
         </CardHeader>
         <p className="flex-wrap break-words p-6 line-clamp-4">{content}</p>
       </Link>
+      <CardContent className="grid grid-cols-2 gap-2">
+        {media &&
+          media.map((element, index) => {
+            return (
+              <Image
+                key={index}
+                height={100}
+                width={100}
+                alt=""
+                src={element.url}
+                className="h-full w-full rounded-lg object-cover"
+              ></Image>
+            );
+          })}
+      </CardContent>
       <div className="flex flex-row justify-end pr-2 pb-2">
         <DeleteBookmarkButton bookmarkId={id} />
       </div>
