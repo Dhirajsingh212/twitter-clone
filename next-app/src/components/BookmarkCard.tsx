@@ -40,8 +40,8 @@ const BookmarkCard = ({ id, user, content, createdAt, media }: Bookmark) => {
             return (
               <Image
                 key={index}
-                height={100}
-                width={100}
+                height={1000}
+                width={1000}
                 alt=""
                 src={element.url}
                 className="h-full w-full rounded-lg object-cover"
