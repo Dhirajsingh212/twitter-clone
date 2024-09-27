@@ -10,12 +10,11 @@ import { Post } from "@/types";
 import Link from "next/link";
 import BookmarkButton from "./BookmarkButton";
 import CommentDialog from "./CommentDialog";
+import CustomImage from "./CustomImage";
 import LikeButton from "./LikeButton";
 import SessionCheck from "./SessionCheck";
 import ShareButton from "./ShareButton";
 import { Skeleton } from "./ui/skeleton";
-import Image from "next/image";
-import CustomImage from "./CustomImage";
 
 const PostsCard = ({
   id,

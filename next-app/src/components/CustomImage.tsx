@@ -22,7 +22,6 @@ const CustomImage = ({
         alt="Description"
         width={1000}
         height={1000}
-        objectFit="cover"
         onLoad={() => setLoading(false)}
         className={cn(
           "object-cover",

@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateToHrsAgo } from "@/lib/date";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

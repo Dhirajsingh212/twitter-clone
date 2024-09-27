@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { formatDateToHrsAgo } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { Bookmark } from "@/types";
+import Image from "next/image";
 import Link from "next/link";
 import DeleteBookmarkButton from "./DeleteBookmarkButton";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 const BookmarkCard = ({ id, user, content, createdAt, media }: Bookmark) => {
   return (
