@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NavbarItems } from "@/resource";
 import Link from "next/link";
+import LogoutButton from "./LogoutButton";
 
 export function NavbarMenu() {
   return (
@@ -29,6 +30,9 @@ export function NavbarMenu() {
             </Link>
           );
         })}
+        <div>
+          <LogoutButton />
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

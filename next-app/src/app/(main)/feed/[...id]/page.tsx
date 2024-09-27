@@ -1,6 +1,7 @@
 import { fetchSinglePostById } from "@/actions";
 import BookmarkButton from "@/components/BookmarkButton";
 import CommentDialog from "@/components/CommentDialog";
+import CustomImage from "@/components/CustomImage";
 import DeleteButton from "@/components/DeleteButton";
 import LikeButton from "@/components/LikeButton";
 import SessionCheck from "@/components/SessionCheck";
@@ -68,14 +69,11 @@ export default async function PostPage({
           {singlePost &&
             singlePost.media.map((element, index) => {
               return (
-                <Image
+                <CustomImage
                   key={index}
-                  height={1000}
-                  width={1000}
-                  alt=""
                   src={element.url}
-                  className="h-full w-full rounded-lg object-cover"
-                ></Image>
+                  customStyle="h-full w-full rounded-lg object-cover"
+                />
               );
             })}
         </CardContent>

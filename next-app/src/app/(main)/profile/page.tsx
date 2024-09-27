@@ -1,4 +1,5 @@
 import { fetchUserAllPost, fetchUserDetails } from "@/actions";
+import CustomImage from "@/components/CustomImage";
 import ProfileBioDialog from "@/components/ProfileBioDialog";
 import ProfileTabs from "@/components/ProfileTabs";
 import NextAuth from "@/lib/auth";
@@ -33,17 +34,13 @@ export default async function FullXProfile() {
                 className="w-full h-48 object-cover"
               />
               {userDetails && (
-                <Image
-                  width={1000}
-                  height={1000}
-                  src={userDetails?.profilePic}
-                  alt="Profile picture"
-                  className="object-cover absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
+                <CustomImage
+                  customStyle="h-32 w-32 transform translate-y-1/2 rounded-full  absolute bottom-0 left-4 border-white dark:border-gray-900 border-4"
+                  src={userDetails.profilePic}
                 />
               )}
             </div>
 
-            {/* Profile Info */}
             <div className="mt-16 px-4">
               <div className="flex justify-end mb-4">
                 <ProfileBioDialog

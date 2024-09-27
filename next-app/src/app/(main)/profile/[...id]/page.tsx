@@ -1,4 +1,5 @@
 import { fetchUserAllPostById, fetchUserDetailsById } from "@/actions";
+import CustomImage from "@/components/CustomImage";
 import FollowButton from "@/components/FollowButton";
 import ProfileTabs from "@/components/ProfileTabs";
 import { formatDateString } from "@/lib/date";
@@ -34,12 +35,9 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
                 width={1000}
                 height={1000}
               />
-              <Image
-                width={1000}
-                height={1000}
+              <CustomImage
+                customStyle="h-32 w-32 transform translate-y-1/2 rounded-full  absolute bottom-0 left-4 border-white dark:border-gray-900 border-4"
                 src={userDetails.profilePic}
-                alt="Profile picture"
-                className="object-cover absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
               />
             </div>
 

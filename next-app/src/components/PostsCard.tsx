@@ -15,6 +15,7 @@ import SessionCheck from "./SessionCheck";
 import ShareButton from "./ShareButton";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
+import CustomImage from "./CustomImage";
 
 const PostsCard = ({
   id,
@@ -54,14 +55,19 @@ const PostsCard = ({
         {media &&
           media.map((element, index) => {
             return (
-              <Image
+              <CustomImage
                 key={index}
-                height={100}
-                width={100}
-                alt=""
                 src={element.url}
-                className="h-full w-full rounded-lg object-cover"
-              ></Image>
+                customStyle="h-full w-full rounded-lg object-cover"
+              />
+              // <Image
+              //   key={index}
+              //   height={100}
+              //   width={100}
+              //   alt=""
+              //   src={element.url}
+              //   className="h-full w-full rounded-lg object-cover"
+              // ></Image>
             );
           })}
       </CardContent>
