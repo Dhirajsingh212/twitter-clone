@@ -2,7 +2,7 @@ import { fetchUserAllPostById, fetchUserDetailsById } from "@/actions";
 import FollowButton from "@/components/FollowButton";
 import ProfileTabs from "@/components/ProfileTabs";
 import { formatDateString } from "@/lib/date";
-import { profileDefualtImage1, profileDefualtImage2 } from "@/resource";
+import { profileDefualtImage1 } from "@/resource";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
@@ -39,7 +39,7 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
                 height={1000}
                 src={userDetails.profilePic}
                 alt="Profile picture"
-                className="absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
+                className="object-cover absolute bottom-0 left-4 transform translate-y-1/2 w-32 h-32 rounded-full border-4 border-white dark:border-gray-900"
               />
             </div>
 

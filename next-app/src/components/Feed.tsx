@@ -1,11 +1,10 @@
 "use client";
 import { postTweet } from "@/actions";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { findDiff } from "@/lib/utils";
+import { findDiff, uploadImages } from "@/lib/utils";
 import { Post } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -40,29 +39,6 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
 
     return () => clearInterval(interval);
   }, [pollingPosts]);
-
-  async function uploadImages(images: any) {
-    const files = images;
-    if (files?.length > 0) {
-      let data = new FormData();
-      for (const file of files) {
-        data.append("file", file);
-      }
-      data.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME || ""
-      );
-      const res = await fetch(`/api/upload`, {
-        method: "POST",
-        body: data,
-      });
-      const imageResponse = await res.json();
-      if (imageResponse.status !== 200) {
-        throw new Error(imageResponse.message);
-      }
-      return imageResponse;
-    }
-  }
 
   return (
     <main className="lg:w-1/2 border-x border-y py-2 rounded-lg border-gray-200 dark:border-gray-800 px-4 ">

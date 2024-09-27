@@ -1,7 +1,6 @@
 "use server";
 import prisma from "@/db/db";
 import { revalidatePath } from "next/cache";
-import { v2 as cloudinary } from "cloudinary";
 
 // ************************USERS**********************************//
 
@@ -98,18 +97,41 @@ export async function updateBio(
   id: number,
   bio: string,
   location: string,
-  link: string
+  link: string,
+  urls: string[]
 ) {
   try {
-    await prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        bio,
-        location,
-        link,
-      },
+    await prisma.$transaction(async (prisma) => {
+      const imageUrls = await prisma.user.findFirst({
+        where: {
+          id: id,
+        },
+        select: {
+          profilePic: true,
+        },
+      });
+      if (
+        urls.length === 1 &&
+        imageUrls?.profilePic &&
+        imageUrls.profilePic !== process.env.PROFILE_DEFAULT_IMAGE
+      ) {
+        const urlsArr = [];
+        urlsArr.push({ url: imageUrls?.profilePic });
+
+        await deleteImage(urlsArr);
+      }
+
+      await prisma.user.update({
+        where: {
+          id: id,
+        },
+        data: {
+          bio,
+          location,
+          link,
+          profilePic: urls[0],
+        },
+      });
     });
     revalidatePath("/profile");
   } catch (err) {
@@ -124,13 +146,9 @@ export async function updateBio(
 async function deleteImage(urls: { url: string }[]) {
   await Promise.all(
     urls.map(async (el) => {
-      const res = await fetch(
-        `http://localhost:3000/api/upload/?url=${el.url}`,
-        {
-          method: "DELETE",
-        }
-      );
-      const deletedImageData = await res.json();
+      await fetch(`http://localhost:3000/api/upload/?url=${el.url}`, {
+        method: "DELETE",
+      });
     })
   );
 }
@@ -194,7 +212,7 @@ export async function postTweet(
   mediaUrls: string[]
 ) {
   try {
-    const tweet = await prisma.tweet.create({
+    await prisma.tweet.create({
       data: {
         content: message,
         userId: userId,

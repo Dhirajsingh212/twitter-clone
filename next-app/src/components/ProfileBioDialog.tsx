@@ -14,13 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { uploadImages } from "@/lib/utils";
 import { ProfileBioInputs } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import ProfileImagePreview from "./ProfileImagePreview";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
-import ProfileImagePreview from "./ProfileImagePreview";
 
 export default function ProfileBioDialog(props: ProfileBioInputs) {
   const [inputForm, setInputForm] = useState<ProfileBioInputs>({
@@ -54,10 +55,15 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
         return;
       }
 
+      if (image.length > 1) {
+        toast.error("Max of 1 image can be uploaded.");
+      }
+
       if (
         bio === props.bio &&
         location === props.location &&
-        link === props.link
+        link === props.link &&
+        image.length === 0
       ) {
         toast.success("Updated successfully.");
         return;
@@ -69,7 +75,17 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
       }
 
       const id = Number((session.data?.user as any).id);
-      await updateBio(id, bio, location, link);
+      let urls: string[] = [];
+
+      if (image.length === 1) {
+        const imageResponse = await uploadImages(image);
+        urls = imageResponse.uploadedImagesData.map(
+          (element: any) => element.url
+        );
+      }
+
+      await updateBio(id, bio, location, link, urls);
+
       toast.success("Updated Bio.");
     } catch (err) {
       console.log(err);

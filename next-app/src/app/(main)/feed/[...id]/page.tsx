@@ -43,6 +43,7 @@ export default async function PostPage({
               <AvatarImage
                 src={singlePost.user.profilePic}
                 alt={(singlePost && singlePost.user.username) || ""}
+                className="object-cover"
               />
               <AvatarFallback>
                 {singlePost && singlePost.user.username[0].toUpperCase()}
@@ -115,7 +116,11 @@ export default async function PostPage({
             <Card key={comment.id}>
               <CardHeader className="flex flex-row items-center gap-4">
                 <Avatar>
-                  <AvatarImage src={comment.user.profilePic} alt="" />
+                  <AvatarImage
+                    className="object-cover"
+                    src={comment.user.profilePic}
+                    alt=""
+                  />
                   <AvatarFallback>
                     {comment.user.username[0].toUpperCase()}
                   </AvatarFallback>

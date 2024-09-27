@@ -6,13 +6,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ImageIcon, Target, X } from "lucide-react";
+import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import { Suspense } from "react";
+import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
-import toast from "react-hot-toast";
 
 const ProfileImagePreview = ({ images, setImages }: any) => {
   const handleImageChange = (event: any) => {

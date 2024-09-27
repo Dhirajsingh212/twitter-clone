@@ -33,3 +33,26 @@ export function compareBookmarksId(
 export function findDiff(pollingPostLength: number, allPostLength: number) {
   return Math.abs(pollingPostLength - allPostLength);
 }
+
+export async function uploadImages(images: any) {
+  const files = images;
+  if (files?.length > 0) {
+    const data = new FormData();
+    for (const file of files) {
+      data.append("file", file);
+    }
+    data.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME || ""
+    );
+    const res = await fetch(`/api/upload`, {
+      method: "POST",
+      body: data,
+    });
+    const imageResponse = await res.json();
+    if (imageResponse.status !== 200) {
+      throw new Error(imageResponse.message);
+    }
+    return imageResponse;
+  }
+}
