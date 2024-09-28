@@ -1,5 +1,5 @@
+"use client";
 import { Menu } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,8 +10,12 @@ import {
 import { NavbarItems } from "@/resource";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
+import { usePathname } from "next/navigation";
+import SessionCheck from "./SessionCheck";
+import { Skeleton } from "./ui/skeleton";
 
 export function NavbarMenu() {
+  const pathName = usePathname();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,14 +25,37 @@ export function NavbarMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="lg:hidden w-56">
         {NavbarItems.map((element, index) => {
-          return (
-            <Link href={element.Link} key={index}>
-              <DropdownMenuItem>
-                {element.icon}
-                <span>{element.text}</span>
-              </DropdownMenuItem>
-            </Link>
-          );
+          const isTrue = pathName === element.Link ? true : false;
+
+          if (
+            element.text === "Profile" ||
+            element.text === "Messages" ||
+            element.text === "Bookmarks" ||
+            element.text === "Settings"
+          ) {
+            return (
+              <SessionCheck
+                key={index}
+                Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
+              >
+                <Link href={element.Link}>
+                  <DropdownMenuItem>
+                    {element.icon}
+                    <span>{element.text}</span>
+                  </DropdownMenuItem>
+                </Link>
+              </SessionCheck>
+            );
+          } else {
+            return (
+              <Link href={element.Link} key={index}>
+                <DropdownMenuItem>
+                  {element.icon}
+                  <span>{element.text}</span>
+                </DropdownMenuItem>
+              </Link>
+            );
+          }
         })}
         <div>
           <LogoutButton />
