@@ -8,7 +8,7 @@ import { findDiff, uploadImages } from "@/lib/utils";
 import { Post } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import ComingSoonCard from "./ComingSoonCard";
 import InputImage from "./InputImage";
@@ -16,6 +16,8 @@ import PostsCard from "./PostsCard";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
+import { useRouter } from "next/navigation";
+import ScrollToTop from "./ScrollToTop";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
@@ -24,6 +26,8 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const [pollingPosts, setPollingPosts] = useState<Post[]>([...dbPosts]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [images, setImages] = useState<any>([]);
+  const router = useRouter();
+  const divRef = useRef<any>();
 
   useEffect(() => {
     setAllPosts([...dbPosts]);
@@ -49,6 +53,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
         </TabsList>
         <TabsContent
           value="for-you"
+          ref={divRef}
           className="h-[86vh] overflow-y-scroll no-scrollbar"
         >
           <SessionCheck
@@ -117,6 +122,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
           {findDiff(pollingPosts.length, allPosts.length) > 0 && (
             <button
               onClick={() => {
+                router.push("/feed");
                 setAllPosts([...pollingPosts]);
               }}
               className="border w-full border-blue-500 text-center mt-4 text-blue-500 py-2"
@@ -125,6 +131,9 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
             </button>
           )}
           <div className="space-y-4 mt-4 ">
+            {allPosts.length === 0 && (
+              <p className="text-center">No posts found.</p>
+            )}
             {allPosts.map((post, index) => (
               <PostsCard
                 key={index}
@@ -141,6 +150,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
               />
             ))}
           </div>
+          <ScrollToTop divRef={divRef} />
         </TabsContent>
         <TabsContent value="following" className="min-h-[86vh]">
           <ComingSoonCard />

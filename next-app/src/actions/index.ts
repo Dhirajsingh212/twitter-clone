@@ -235,9 +235,27 @@ export async function postTweet(
   }
 }
 
-export async function fetchPosts() {
+export async function fetchPosts(query?: string) {
   try {
     const allPosts = await prisma.tweet.findMany({
+      where: {
+        OR: [
+          {
+            content: {
+              contains: query || "",
+              mode: "insensitive",
+            },
+          },
+          {
+            user: {
+              username: {
+                contains: query || "",
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -278,6 +296,7 @@ export async function fetchPosts() {
         },
       },
     });
+
     return allPosts;
   } catch (err) {
     console.log(err);

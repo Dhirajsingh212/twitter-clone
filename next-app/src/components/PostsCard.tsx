@@ -50,7 +50,7 @@ const PostsCard = ({
           {content}
         </p>
       </Link>
-      <CardContent className="grid grid-cols-2 gap-2">
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {media &&
           media.map((element, index) => {
             return (
