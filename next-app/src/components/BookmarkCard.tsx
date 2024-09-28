@@ -34,7 +34,7 @@ const BookmarkCard = ({ id, user, content, createdAt, media }: Bookmark) => {
         </CardHeader>
         <p className="flex-wrap break-words p-6 line-clamp-4">{content}</p>
       </Link>
-      <CardContent className="grid grid-cols-2 gap-2">
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {media &&
           media.map((element, index) => {
             return (

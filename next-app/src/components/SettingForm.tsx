@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { updateUsernameAndEmail } from "@/actions";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function SettingForm({
   emailProp,
@@ -19,6 +21,7 @@ export default function SettingForm({
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState(usernameProp);
   const [email, setEmail] = useState(emailProp);
+  const router = useRouter();
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -34,6 +37,8 @@ export default function SettingForm({
     try {
       if (await updateUsernameAndEmail(email, username, emailProp)) {
         toast.success("Updated user profile");
+        await signOut();
+        router.push("/feed");
       } else {
         toast.error("Something went wrong");
       }

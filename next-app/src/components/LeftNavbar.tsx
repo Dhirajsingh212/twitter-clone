@@ -9,6 +9,7 @@ import SessionCheck from "./SessionCheck";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
+import { motion } from "framer-motion";
 
 const LeftNavbar = () => {
   const pathName = usePathname();
@@ -71,12 +72,18 @@ const LeftNavbar = () => {
           <LogoutButton />
 
           <Link href="/feed">
-            <Button
-              className="w-full mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold"
-              size="lg"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              Post
-            </Button>
+              <Button
+                className="w-full mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                size="lg"
+              >
+                Post
+              </Button>
+            </motion.div>
           </Link>
         </div>
 

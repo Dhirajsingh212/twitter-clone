@@ -64,7 +64,7 @@ export default async function PostPage({
             {singlePost && singlePost.content}
           </p>
         </CardContent>
-        <CardContent className="grid grid-cols-2 gap-2">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {singlePost &&
             singlePost.media.map((element, index) => {
               return (
