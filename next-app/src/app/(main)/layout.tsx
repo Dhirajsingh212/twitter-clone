@@ -1,6 +1,5 @@
 import LeftNavbar from "@/components/LeftNavbar";
 import RightSideBar from "@/components/RightSideBar";
-import ScrollToTop from "@/components/ScrollToTop";
 import { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
