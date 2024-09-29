@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import NotificationToaster from "@/components/NotificationToaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -56,6 +57,7 @@ export default function RootLayout({
             }}
           />
           <TopLoader />
+          <NotificationToaster />
 
           {children}
         </ThemeProvider>

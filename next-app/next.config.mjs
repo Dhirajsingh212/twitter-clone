@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compiler: {
-    removeConsole: false,
+    removeConsole: true,
   },
   images: {
-    domains: ["res.cloudinary.com", "i.pinimg.com"],
+    remotePatterns: [
+      { hostname: "res.cloudinary.com" },
+      { hostname: "i.pinimg.com" },
+    ],
   },
 };
 

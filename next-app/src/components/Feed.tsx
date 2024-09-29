@@ -8,16 +8,16 @@ import { findDiff, uploadImages } from "@/lib/utils";
 import { Post } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import ComingSoonCard from "./ComingSoonCard";
 import InputImage from "./InputImage";
 import PostsCard from "./PostsCard";
+import ScrollToTop from "./ScrollToTop";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
 import { Skeleton } from "./ui/skeleton";
-import { useRouter } from "next/navigation";
-import ScrollToTop from "./ScrollToTop";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const session = useSession();
@@ -35,10 +35,12 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const response = await axios.get("/api/fetchtweet");
-      if (response.data.allPosts) {
-        setPollingPosts(response.data.allPosts);
-      }
+      try {
+        const response = await axios.get("/api/fetchtweet");
+        if (response.data.allPosts) {
+          setPollingPosts(response.data.allPosts);
+        }
+      } catch (err) {}
     }, 10000);
 
     return () => clearInterval(interval);
