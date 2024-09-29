@@ -1,5 +1,4 @@
 "use client";
-import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,14 +7,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NavbarItems } from "@/resource";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
-import { usePathname } from "next/navigation";
 import SessionCheck from "./SessionCheck";
 import { Skeleton } from "./ui/skeleton";
 
 export function NavbarMenu() {
-  const pathName = usePathname();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,8 +23,6 @@ export function NavbarMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="lg:hidden w-56">
         {NavbarItems.map((element, index) => {
-          const isTrue = pathName === element.Link ? true : false;
-
           if (
             element.text === "Profile" ||
             element.text === "Messages" ||

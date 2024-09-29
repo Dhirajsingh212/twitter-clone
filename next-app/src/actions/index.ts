@@ -139,6 +139,40 @@ export async function updateBio(
   }
 }
 
+export async function fetchTopUsers() {
+  try {
+    const topUsers = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        profilePic: true,
+        bio: true,
+        followers: {
+          select: {
+            followerId: true,
+            followingId: true,
+          },
+        },
+        _count: {
+          select: {
+            tweets: true,
+          },
+        },
+      },
+      orderBy: {
+        tweets: {
+          _count: "desc",
+        },
+      },
+      take: 5,
+    });
+    return topUsers;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
 // **************************************************************//
 
 // ************************TWEET**********************************//
@@ -582,6 +616,7 @@ export async function followUser(followId: number, userId: number) {
       },
     });
     revalidatePath(`/profile/${followId}`);
+    revalidatePath(`/feed`);
     return true;
   } catch (err) {
     console.log(err);
@@ -598,6 +633,7 @@ export async function unfollowUser(followId: number, userId: number) {
       },
     });
     revalidatePath(`/profile/${followId}`);
+    revalidatePath(`/feed`);
     return true;
   } catch (err) {
     console.log(err);

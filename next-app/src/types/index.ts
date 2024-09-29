@@ -6,6 +6,20 @@ export interface ResponseObj {
   message?: string | null;
 }
 
+export interface Topuser {
+  id: number;
+  username: string;
+  profilePic: string;
+  bio: string;
+  followers: {
+    followerId: number;
+    followingId: number;
+  }[];
+  _count: {
+    tweets: number;
+  };
+}
+
 export interface Bookmark {
   id: number;
   user: {

@@ -27,6 +27,10 @@ const FollowButton = ({
 
   const userId = Number((session.data?.user as any).id);
 
+  console.log(userId);
+  console.log(followId);
+  console.log(followers);
+
   return (
     <>
       {compareFollowerId(followers, userId) ? (
