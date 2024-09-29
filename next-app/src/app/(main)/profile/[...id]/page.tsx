@@ -108,7 +108,9 @@ const Component = async ({ params }: { params: { id: string[] } }) => {
       </div>
 
       {/* Tabs */}
-      <ProfileTabs posts={userPosts} />
+      <div className="container max-w-2xl">
+        <ProfileTabs posts={userPosts} />
+      </div>
     </div>
   );
 };

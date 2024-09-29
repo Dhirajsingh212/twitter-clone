@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { NavbarItems } from "@/resource";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoutButton from "./LogoutButton";
@@ -9,7 +10,6 @@ import SessionCheck from "./SessionCheck";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
-import { motion } from "framer-motion";
 
 const LeftNavbar = () => {
   const pathName = usePathname();
@@ -27,8 +27,8 @@ const LeftNavbar = () => {
             const isTrue = pathName === element.Link ? true : false;
             if (
               element.text === "Profile" ||
-              element.text === "Messages" ||
               element.text === "Bookmarks" ||
+              element.text === "Notifications" ||
               element.text === "Settings"
             ) {
               return (

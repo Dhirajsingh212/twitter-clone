@@ -49,27 +49,27 @@ const PostsCard = ({
         <p className="flex-wrap break-words p-6 line-clamp-4 text-lg sm:text-lg">
           {content}
         </p>
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {media &&
+            media.map((element, index) => {
+              return (
+                <CustomImage
+                  key={index}
+                  src={element.url}
+                  customStyle="h-full w-full rounded-lg object-cover"
+                />
+                // <Image
+                //   key={index}
+                //   height={100}
+                //   width={100}
+                //   alt=""
+                //   src={element.url}
+                //   className="h-full w-full rounded-lg object-cover"
+                // ></Image>
+              );
+            })}
+        </CardContent>
       </Link>
-      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        {media &&
-          media.map((element, index) => {
-            return (
-              <CustomImage
-                key={index}
-                src={element.url}
-                customStyle="h-full w-full rounded-lg object-cover"
-              />
-              // <Image
-              //   key={index}
-              //   height={100}
-              //   width={100}
-              //   alt=""
-              //   src={element.url}
-              //   className="h-full w-full rounded-lg object-cover"
-              // ></Image>
-            );
-          })}
-      </CardContent>
       <CardFooter className="flex justify-between items-center p-2 flex-wrap">
         <SessionCheck
           Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}

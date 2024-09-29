@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/db/db";
+import { pusherServer } from "@/pusher/pusherServer";
 import { revalidatePath } from "next/cache";
 
 // ************************USERS**********************************//
@@ -350,6 +351,11 @@ export async function fetchUserAllPostById(userId: number) {
         id: true,
         createdAt: true,
         updatedAt: true,
+        media: {
+          select: {
+            url: true,
+          },
+        },
         bookmarks: {
           select: {
             tweetId: true,
@@ -531,6 +537,34 @@ export async function postComment(
       },
     });
 
+    const userTweetDetails = await prisma.tweet.findFirst({
+      where: {
+        id: postId,
+      },
+      select: {
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    const likedByUserDetails = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        username: true,
+      },
+    });
+
+    await pusherServer.trigger(
+      `${userTweetDetails?.user.id}`,
+      `${userTweetDetails?.user.id}`,
+      `${likedByUserDetails?.username} commented on your post`
+    );
+
     revalidatePath("/feed");
     revalidatePath("/profile");
 
@@ -591,6 +625,34 @@ export async function tweetLike(userId: number, postId: number) {
         tweetId: postId,
       },
     });
+
+    const userTweetDetails = await prisma.tweet.findFirst({
+      where: {
+        id: postId,
+      },
+      select: {
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    const likedByUserDetails = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        username: true,
+      },
+    });
+
+    await pusherServer.trigger(
+      `${userTweetDetails?.user.id}`,
+      `${userTweetDetails?.user.id}`,
+      `${likedByUserDetails?.username} liked your post`
+    );
     revalidatePath("/feed");
     revalidatePath("/profile");
 
@@ -615,8 +677,18 @@ export async function followUser(followId: number, userId: number) {
         followingId: followId,
       },
     });
+
+    const userDetails = await prisma.user.findFirst({
+      where: { id: userId },
+    });
+
     revalidatePath(`/profile/${followId}`);
     revalidatePath(`/feed`);
+    await pusherServer.trigger(
+      `${followId}`,
+      `${followId}`,
+      `${userDetails?.username} followed you`
+    );
     return true;
   } catch (err) {
     console.log(err);
@@ -752,4 +824,57 @@ export async function fetchUserBookmark(email: string) {
 //   return { timestamp, signature, uploadPreset };
 // }
 
+// ****************************************************************//
+
+// *******************NOTIFICATIONS**********************************//
+
+export async function fetchNotificationByEmail(email: string) {
+  try {
+    const userDetails = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (!userDetails) {
+      return [];
+    }
+
+    const notifications = await prisma.notification.findMany({
+      where: {
+        userId: userDetails.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    await prisma.notification.updateMany({
+      where: {
+        isRead: false,
+      },
+      data: {
+        isRead: true,
+      },
+    });
+    return notifications;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+export async function postNotification(userId: number, message: string) {
+  try {
+    console.log("called");
+    await prisma.notification.create({
+      data: {
+        userId,
+        message,
+      },
+    });
+    return true;
+  } catch (err) {
+    console.log(err);
+    return true;
+  }
+}
 // ****************************************************************//

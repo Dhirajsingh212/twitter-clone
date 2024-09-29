@@ -25,8 +25,8 @@ export function NavbarMenu() {
         {NavbarItems.map((element, index) => {
           if (
             element.text === "Profile" ||
-            element.text === "Messages" ||
             element.text === "Bookmarks" ||
+            element.text === "Notifications" ||
             element.text === "Settings"
           ) {
             return (
