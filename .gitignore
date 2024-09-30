@@ -3,4 +3,3 @@ node_modules
 .next
 redis_data
 dist
-server

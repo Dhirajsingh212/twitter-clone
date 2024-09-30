@@ -20,26 +20,6 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
-  server:
-    build: ./server
-    container_name: server
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-      - redis
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - DATABASE_URL=postgresql://postgres:postgres@localhost:5432/mydb
-      - SECRET=40TJXuVtRuDscAPosxe1GXulw5+ZZbIcubG5jf6CbGo0
-      - END=30d
-      - NODE_ENV=development
-      - PORT=8000
-      - REDIS_URL=redis://redis:6379
-      - ORIGIN="http://localhost:3000"
-    volumes:
-      - ./server:/server
-
   app:
     build: ./next-app
     container_name: app
