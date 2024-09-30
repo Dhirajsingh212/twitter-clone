@@ -40,3 +40,8 @@ To run this project locally, follow these steps:
    npm install
    npm run dev
    ```
+
+
+https://github.com/user-attachments/assets/e97e4213-e3f4-4e27-99ac-592927457408
+
+
