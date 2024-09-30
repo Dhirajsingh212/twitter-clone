@@ -27,7 +27,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
-      - server
     environment:
       - POSTGRES_PASSWORD=postgres
       - DATABASE_URL=postgresql://postgres:postgres@localhost:5432/mydb

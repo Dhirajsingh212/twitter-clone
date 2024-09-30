@@ -34,7 +34,7 @@ export default function TopUsers({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between p-2 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="flex flex-row sm:flex-row sm:items-center justify-between p-2 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     <div className="flex items-center space-x-3 mb-2 sm:mb-0">
                       <Avatar>
@@ -53,7 +53,7 @@ export default function TopUsers({
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-2">
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}

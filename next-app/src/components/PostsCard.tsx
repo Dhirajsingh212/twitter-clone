@@ -77,8 +77,8 @@ const PostsCard = ({
           <CommentDialog postId={id} commentCount={_count.comments} />
           <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
           <BookmarkButton postId={id} allBookmarks={bookmarks} />
-          <ShareButton id={id} />
         </SessionCheck>
+        <ShareButton id={id} />
       </CardFooter>
     </Card>
   );
