@@ -193,53 +193,62 @@ async function deleteImage(urls: { url: string }[]) {
 
 export async function deleteTweet(postId: number) {
   try {
-    await prisma.$transaction(async (prisma) => {
-      const mediaData = await prisma.media.findMany({
-        where: {
-          tweetId: postId,
-        },
-        select: {
-          url: true,
-        },
-      });
+    await prisma.$transaction(
+      async (tx) => {
+        const mediaData = await tx.media.findMany({
+          where: {
+            tweetId: postId,
+          },
+          select: {
+            url: true,
+          },
+        });
 
-      await deleteImage(mediaData);
+        if (mediaData.length > 0) {
+          await deleteImage(mediaData);
+        }
 
-      await prisma.media.deleteMany({
-        where: {
-          tweetId: postId,
-        },
-      });
+        await tx.media.deleteMany({
+          where: {
+            tweetId: postId,
+          },
+        });
 
-      await prisma.bookmark.deleteMany({
-        where: {
-          tweetId: postId,
-        },
-      });
+        await tx.bookmark.deleteMany({
+          where: {
+            tweetId: postId,
+          },
+        });
 
-      await prisma.like.deleteMany({
-        where: {
-          tweetId: postId,
-        },
-      });
+        await tx.like.deleteMany({
+          where: {
+            tweetId: postId,
+          },
+        });
 
-      await prisma.comment.deleteMany({
-        where: {
-          tweetId: postId,
-        },
-      });
+        await tx.comment.deleteMany({
+          where: {
+            tweetId: postId,
+          },
+        });
 
-      await prisma.tweet.deleteMany({
-        where: {
-          id: postId,
-        },
-      });
-    });
+        await tx.tweet.delete({
+          where: {
+            id: postId,
+          },
+        });
+      },
+      {
+        timeout: 10000, // 10 seconds
+        maxWait: 15000, // 15 seconds
+      }
+    );
+
     revalidatePath("/feed");
     revalidatePath(`/feed/${postId}`);
     return true;
   } catch (err) {
-    console.log(err);
+    console.error("Error deleting tweet:", err);
     return false;
   }
 }
