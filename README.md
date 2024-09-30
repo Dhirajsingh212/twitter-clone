@@ -1,11 +1,8 @@
 # Twitter Clone
 
-
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![Pusher](https://img.shields.io/badge/Pusher-000000?style=for-the-badge&logo=pusher&logoColor=white)](https://pusher.com/)
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-000000?style=for-the-badge&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
-
-
 
 ## Description
 
@@ -41,7 +38,4 @@ To run this project locally, follow these steps:
    npm run dev
    ```
 
-
 https://github.com/user-attachments/assets/e97e4213-e3f4-4e27-99ac-592927457408
-
-
