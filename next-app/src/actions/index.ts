@@ -181,9 +181,12 @@ export async function fetchTopUsers() {
 async function deleteImage(urls: { url: string }[]) {
   await Promise.all(
     urls.map(async (el) => {
-      await fetch(`http://localhost:3000/api/upload/?url=${el.url}`, {
-        method: "DELETE",
-      });
+      await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload/?url=${el.url}`,
+        {
+          method: "DELETE",
+        }
+      );
     })
   );
 }
