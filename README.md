@@ -1,8 +1,11 @@
 # Twitter Clone
 
-![Next.js Logo](https://upload.wikimedia.org/wikipedia/commons/2/21/Nextjs-logo.svg)
-![Pusher Logo](https://pusher.com/static/images/logos/pusher-logo-black.svg)
-![Cloudinary Logo](https://upload.wikimedia.org/wikipedia/commons/8/84/Cloudinary_logo.svg)
+
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Pusher](https://img.shields.io/badge/Pusher-000000?style=for-the-badge&logo=pusher&logoColor=white)](https://pusher.com/)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-000000?style=for-the-badge&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+
+
 
 ## Description
 
