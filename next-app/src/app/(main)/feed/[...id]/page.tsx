@@ -77,28 +77,28 @@ export default async function PostPage({
             })}
         </CardContent>
         <CardFooter className="flex justify-between p-6">
+          {singlePost && (
+            <LikeButton
+              postId={singlePost?.id}
+              likeCount={singlePost?._count.likes}
+              allLikes={singlePost.likes}
+            />
+          )}
+          {singlePost && (
+            <CommentDialog
+              postId={singlePost.id}
+              commentCount={singlePost._count.comments}
+            />
+          )}
           <SessionCheck Fallback={<Skeleton className="w-full h-10" />}>
-            {singlePost && (
-              <LikeButton
-                postId={singlePost?.id}
-                likeCount={singlePost?._count.likes}
-                allLikes={singlePost.likes}
-              />
-            )}
-            {singlePost && (
-              <CommentDialog
-                postId={singlePost.id}
-                commentCount={singlePost._count.comments}
-              />
-            )}
             {singlePost && (
               <BookmarkButton
                 postId={singlePost.id}
                 allBookmarks={singlePost.bookmarks}
               />
             )}
-            <ShareButton id={""} />
           </SessionCheck>
+          <ShareButton id={""} />
         </CardFooter>
       </Card>
 
