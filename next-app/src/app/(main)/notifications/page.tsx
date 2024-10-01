@@ -1,5 +1,6 @@
 import { fetchNotificationByEmail } from "@/actions";
 import SessionCheck from "@/components/SessionCheck";
+import BlurFade from "@/components/ui/blur-fade";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDateToHrsAgo } from "@/lib/date";
@@ -37,24 +38,26 @@ const Notifications = async () => {
               {allNotifications.length === 0 && (
                 <p className="text-center">No notifications found.</p>
               )}
-              {allNotifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className="flex items-start space-x-4 mb-4 p-4 hover:bg-accent rounded-lg transition-colors"
-                >
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center">
-                      <NotificationIcon type={notification.message} />
-                      <p className="ml-2 text-sm font-medium">
-                        {notification.message}
+              <BlurFade>
+                {allNotifications.map((notification) => (
+                  <div
+                    key={notification.id}
+                    className="flex items-start space-x-4 mb-4 p-4 hover:bg-accent rounded-lg transition-colors"
+                  >
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center">
+                        <NotificationIcon type={notification.message} />
+                        <p className="ml-2 text-sm font-medium">
+                          {notification.message}
+                        </p>
+                      </div>
+                      <p className="text-xs ml-6 text-muted-foreground">
+                        {formatDateToHrsAgo(notification.createdAt)}
                       </p>
                     </div>
-                    <p className="text-xs ml-6 text-muted-foreground">
-                      {formatDateToHrsAgo(notification.createdAt)}
-                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </BlurFade>
             </ScrollArea>
           </CardContent>
         </Card>

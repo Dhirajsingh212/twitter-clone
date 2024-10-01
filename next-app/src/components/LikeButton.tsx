@@ -22,13 +22,41 @@ const LikeButton = ({
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const session = useSession();
-  const userId = Number((session.data?.user as any).id);
 
   useEffect(() => {
+    if (session.status !== "authenticated") {
+      return;
+    }
     if (compareLikeId(allLikes || [], userId)) {
       setIsLiked(true);
     }
   }, []);
+
+  if (session.status !== "authenticated") {
+    return (
+      <Button variant="ghost" size="sm" disabled={true}>
+        <motion.div
+          animate={{
+            scale: isLiked ? [1, 1.2, 1] : 1,
+            rotate: isLiked ? [0, -10, 10, 0] : 0,
+          }}
+          className="flex flex-row gap-2"
+          transition={{ duration: 0.5 }}
+        >
+          <Heart className="size-4" />
+          <motion.span
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="font-semibold "
+          >
+            {likeCount}
+          </motion.span>
+        </motion.div>
+      </Button>
+    );
+  }
+
+  const userId = Number((session.data?.user as any).id);
 
   const handleClick = async () => {
     try {

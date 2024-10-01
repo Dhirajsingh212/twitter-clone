@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { postComment } from "@/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,13 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Spinner from "./Spinner";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { postComment } from "@/actions";
 
 export default function CommentDialog({
   postId,
@@ -31,7 +30,12 @@ export default function CommentDialog({
   const remainingChars = maxChars - comment.length;
 
   if (session.status !== "authenticated") {
-    return <Spinner />;
+    return (
+      <Button variant="ghost" disabled={true}>
+        <MessageCircle className="size-4" />
+        <span className="pl-2">{commentCount}</span>
+      </Button>
+    );
   }
 
   const submitHandler = async () => {
@@ -52,7 +56,7 @@ export default function CommentDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" disabled={session.status !== "authenticated"}>
           <MessageCircle className="size-4" />
           <span className="pl-2">{commentCount}</span>
         </Button>

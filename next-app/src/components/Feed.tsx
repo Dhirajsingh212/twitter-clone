@@ -17,6 +17,7 @@ import PostsCard from "./PostsCard";
 import ScrollToTop from "./ScrollToTop";
 import SessionCheck from "./SessionCheck";
 import Spinner from "./Spinner";
+import BlurFade from "./ui/blur-fade";
 import { Skeleton } from "./ui/skeleton";
 
 const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
@@ -28,6 +29,8 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   const [images, setImages] = useState<any>([]);
   const router = useRouter();
   const divRef = useRef<any>();
+  const maxChars = 280;
+  const remainingChars = maxChars - postText.length;
 
   useEffect(() => {
     setAllPosts([...dbPosts]);
@@ -70,8 +73,15 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                     onChange={(e) => {
                       setPostText(e.target.value);
                     }}
-                    className="resize-none focus-visible:ring-0 bg-gray-100 dark:bg-zinc-800 border-none"
+                    className="max-h-40 sm:max-h-24 focus-visible:ring-0 bg-gray-100 dark:bg-zinc-800 border-none"
                   />
+                </div>
+                <div className="text-sm text-muted-foreground text-right">
+                  <span
+                    className={remainingChars < 0 ? "text-destructive" : ""}
+                  >
+                    {remainingChars} characters remaining
+                  </span>
                 </div>
               </CardHeader>
               <div className="px-6">
@@ -81,7 +91,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
                 <div className="flex space-x-2 self-start"></div>
                 <Button
                   className="bg-blue-500 text-white hover:bg-blue-400"
-                  disabled={isLoading}
+                  disabled={isLoading || remainingChars < 0}
                   onClick={async () => {
                     try {
                       setIsLoading(true);
@@ -136,21 +146,23 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
             {allPosts.length === 0 && (
               <p className="text-center">No posts found.</p>
             )}
-            {allPosts.map((post, index) => (
-              <PostsCard
-                key={index}
-                id={post.id}
-                user={post.user}
-                content={post.content}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
-                userId={post.userId}
-                _count={post._count}
-                likes={post.likes}
-                bookmarks={post.bookmarks}
-                media={post.media}
-              />
-            ))}
+            <BlurFade>
+              {allPosts.map((post, index) => (
+                <PostsCard
+                  key={index}
+                  id={post.id}
+                  user={post.user}
+                  content={post.content}
+                  createdAt={post.createdAt}
+                  updatedAt={post.updatedAt}
+                  userId={post.userId}
+                  _count={post._count}
+                  likes={post.likes}
+                  bookmarks={post.bookmarks}
+                  media={post.media}
+                />
+              ))}
+            </BlurFade>
           </div>
           <ScrollToTop divRef={divRef} />
         </TabsContent>

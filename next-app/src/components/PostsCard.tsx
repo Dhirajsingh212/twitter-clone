@@ -71,11 +71,11 @@ const PostsCard = ({
         </CardContent>
       </Link>
       <CardFooter className="flex justify-between items-center p-2 flex-wrap">
+        <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
+        <CommentDialog postId={id} commentCount={_count.comments} />
         <SessionCheck
           Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
         >
-          <CommentDialog postId={id} commentCount={_count.comments} />
-          <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
           <BookmarkButton postId={id} allBookmarks={bookmarks} />
         </SessionCheck>
         <ShareButton id={id} />

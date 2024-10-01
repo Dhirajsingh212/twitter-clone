@@ -4,6 +4,7 @@ import { Post } from "@/types";
 import { useState } from "react";
 import ComingSoonCard from "./ComingSoonCard";
 import PostsCard from "./PostsCard";
+import BlurFade from "./ui/blur-fade";
 
 const ProfileTabs = ({ posts }: { posts: Post[] }) => {
   const [activeTab, setActiveTab] = useState("posts");
@@ -25,22 +26,24 @@ const ProfileTabs = ({ posts }: { posts: Post[] }) => {
       </TabsList>
       <TabsContent value="posts" className="lg:py-4">
         <div className="space-y-4">
-          {posts.length === 0 && <p>No posts found.</p>}
-          {posts.map((tweet: Post) => (
-            <PostsCard
-              key={tweet.id}
-              id={tweet.id}
-              content={tweet.content}
-              createdAt={tweet.createdAt}
-              updatedAt={tweet.updatedAt}
-              userId={tweet.userId}
-              user={tweet.user}
-              _count={tweet._count}
-              likes={tweet.likes}
-              bookmarks={tweet.bookmarks}
-              media={tweet.media}
-            />
-          ))}
+          <BlurFade>
+            {posts.length === 0 && <p>No posts found.</p>}
+            {posts.map((tweet: Post) => (
+              <PostsCard
+                key={tweet.id}
+                id={tweet.id}
+                content={tweet.content}
+                createdAt={tweet.createdAt}
+                updatedAt={tweet.updatedAt}
+                userId={tweet.userId}
+                user={tweet.user}
+                _count={tweet._count}
+                likes={tweet.likes}
+                bookmarks={tweet.bookmarks}
+                media={tweet.media}
+              />
+            ))}
+          </BlurFade>
         </div>
       </TabsContent>
       <TabsContent className="p-4" value="replies">
