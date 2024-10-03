@@ -3,6 +3,33 @@ export interface Env {
 	MY_RATE_LIMITER: any;
 }
 
+addEventListener('fetch', (event) => {
+	event.respondWith(handleRequest(event.request));
+});
+
+const corsHeaders = {
+	'Access-Control-Allow-Headers': '*',
+	'Access-Control-Allow-Methods': 'POST',
+	'Access-Control-Allow-Origin': '*',
+};
+
+async function handleRequest(request: any) {
+	if (request.method === 'OPTIONS') {
+		return new Response('OK', {
+			headers: corsHeaders,
+		});
+	} else if (request.method === 'POST') {
+		return fetch(request);
+	} else if (request.method === 'GET') {
+		return fetch(request);
+	} else {
+		return new Response('Method not allowed', {
+			status: 405,
+			headers: corsHeaders,
+		});
+	}
+}
+
 export default {
 	async fetch(request, env): Promise<Response> {
 		try {
