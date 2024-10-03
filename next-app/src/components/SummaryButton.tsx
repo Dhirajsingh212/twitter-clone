@@ -75,11 +75,15 @@ export default function SummaryButton({
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col items-center p-6 space-y-6">
-            <ScrollArea className="h-60 border rounded-lg p-2 border-gray-300 dark:border-gray-700">
-              <p className="text-lg w-full text-start text-gray-700 dark:text-white">
-                {isLoading ? <Spinner /> : `${summaryState}`}
-              </p>
-            </ScrollArea>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <ScrollArea className="h-60 border rounded-lg p-2 border-gray-300 dark:border-gray-700">
+                <p className="text-lg text-start text-gray-700 dark:text-white">
+                  {summaryState}
+                </p>
+              </ScrollArea>
+            )}
             <Button
               onClick={() => setIsOpen(false)}
               className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300"
