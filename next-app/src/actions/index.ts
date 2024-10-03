@@ -465,6 +465,23 @@ export async function fetchUserAllPost(email: string) {
   }
 }
 
+export async function addSummary(postId: number, summary: string) {
+  try {
+    await prisma.tweet.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        summary,
+      },
+    });
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
 export async function fetchSinglePostById(postId: number) {
   try {
     const singlePost = await prisma.tweet.findFirst({
@@ -476,6 +493,7 @@ export async function fetchSinglePostById(postId: number) {
         content: true,
         createdAt: true,
         updatedAt: true,
+        summary: true,
         likes: {
           select: {
             tweetId: true,
