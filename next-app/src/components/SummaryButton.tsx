@@ -76,7 +76,7 @@ export default function SummaryButton({
           </DialogHeader>
           <div className="flex flex-col items-center p-6 space-y-6">
             <ScrollArea className="h-60 border rounded-lg p-2 border-gray-300 dark:border-gray-700">
-              <p className="text-lg text-start text-gray-700 dark:text-white">
+              <p className="text-lg w-full text-start text-gray-700 dark:text-white">
                 {isLoading ? <Spinner /> : `${summaryState}`}
               </p>
             </ScrollArea>
