@@ -31,7 +31,7 @@ const Notifications = async () => {
 
   return (
     <SessionCheck>
-      <div className="lg:w-1/2 py-2 rounded-lg px-4">
+      <div className="py-2 rounded-lg px-4">
         <Card className="w-full max-w-3xl mx-auto py-4">
           <CardContent>
             <ScrollArea className="h-[76vh]">

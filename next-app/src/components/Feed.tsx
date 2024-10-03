@@ -50,7 +50,7 @@ const Feed = ({ dbPosts }: { dbPosts: Post[] }) => {
   }, [pollingPosts]);
 
   return (
-    <main className="lg:w-1/2 border-x border-y py-2 rounded-lg border-gray-200 dark:border-gray-800 px-4 ">
+    <main className="border-x border-y py-2 rounded-lg border-gray-200 dark:border-gray-800 px-4 ">
       <Tabs defaultValue="for-you" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="for-you">For you</TabsTrigger>

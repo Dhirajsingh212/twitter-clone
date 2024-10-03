@@ -15,7 +15,7 @@ const Bookmarks = async () => {
   const bookmarkData = await fetchUserBookmark((session as any).user.email);
 
   return (
-    <div className="mx-auto overflow-y-scroll h-[90vh] no-scrollbar lg:w-1/2 w-full">
+    <div className="overflow-y-scroll h-[90vh] no-scrollbar w-full">
       {bookmarkData && bookmarkData.length === 0 && (
         <p className="py-4 text-xl text-center">No bookmarks.</p>
       )}

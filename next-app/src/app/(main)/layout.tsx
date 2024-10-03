@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         {/* Left Sidebar */}
         <LeftNavbar />
         {/* Main Content */}
-        {children}
+        <div className="w-full lg:w-1/2">{children}</div>
         {/* Right Sidebar */}
         <Suspense
           fallback={<Skeleton className="h-96 lg:w-1/4 lg:ml-4 mt-4 lg:mt-0" />}
