@@ -1,7 +1,7 @@
 import prisma from "@/db/db";
 import bcrypt from "bcrypt";
 import { importJWK, JWTPayload, SignJWT } from "jose";
-import NextAuth, { Session } from "next-auth";
+import { NextAuthOptions, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -39,7 +39,7 @@ export interface session extends Session {
   };
 }
 
-export default NextAuth({
+export const AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Email",
@@ -107,32 +107,15 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET || "Secr3t",
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: any) => {
       const newSession: session = session as session;
       if (newSession.user && token.uid) {
         newSession.user.id = token.uid as string;
         newSession.user.jwtToken = token.jwtToken as string;
-        const checkUser = await prisma.user.findFirst({
-          where: {
-            email: newSession.user.email,
-          },
-        });
-        if (!checkUser) {
-          const newUser = await prisma.user.create({
-            data: {
-              email: newSession.user.email,
-              username: newSession.user.name,
-              password: "",
-            },
-          });
-          newSession.user.id = newUser.id.toString() as string;
-        } else {
-          newSession.user.id = checkUser.id.toString() as string;
-        }
       }
       return newSession!;
     },
-    jwt: async ({ token, user }): Promise<JWT> => {
+    jwt: async ({ token, user }: any): Promise<JWT> => {
       const newToken: token = token as token;
 
       if (user) {
@@ -143,6 +126,6 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: "/signup",
+    signIn: "/signin",
   },
-});
+} satisfies NextAuthOptions;
