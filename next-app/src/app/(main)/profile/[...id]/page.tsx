@@ -2,6 +2,7 @@ import { fetchUserAllPostById, fetchUserDetailsById } from "@/actions";
 import CustomImage from "@/components/CustomImage";
 import FollowButton from "@/components/FollowButton";
 import ProfileTabs from "@/components/ProfileTabs";
+import { AuthOptions } from "@/lib/auth";
 import { formatDateString } from "@/lib/date";
 import { profileDefualtImage1 } from "@/resource";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
@@ -12,7 +13,7 @@ import { redirect } from "next/navigation";
 const Component = async ({ params }: { params: { id: string[] } }) => {
   const userDetails = await fetchUserDetailsById(Number(params.id[0]));
   const userPosts = await fetchUserAllPostById(Number(params.id[0]));
-  const session = await getServerSession();
+  const session = await getServerSession(AuthOptions);
 
   if (!userDetails) {
     return <div className="mx-auto">No user found.</div>;

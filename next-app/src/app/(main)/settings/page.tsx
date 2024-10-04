@@ -2,11 +2,12 @@ import { fetchUserDetails } from "@/actions";
 import SessionCheck from "@/components/SessionCheck";
 import SettingForm from "@/components/SettingForm";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AuthOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 const Settings = async () => {
-  const session = await getServerSession();
+  const session = await getServerSession(AuthOptions);
   if (!session || !session.user) {
     redirect("/feed");
   }

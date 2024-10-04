@@ -2,7 +2,7 @@ import { fetchUserAllPost, fetchUserDetails } from "@/actions";
 import CustomImage from "@/components/CustomImage";
 import ProfileBioDialog from "@/components/ProfileBioDialog";
 import ProfileTabs from "@/components/ProfileTabs";
-import NextAuth from "@/lib/auth";
+import { AuthOptions } from "@/lib/auth";
 import { formatDateString } from "@/lib/date";
 import { profileDefualtImage1 } from "@/resource";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
@@ -11,7 +11,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default async function FullXProfile() {
-  const session = await getServerSession(NextAuth);
+  const session = await getServerSession(AuthOptions);
 
   if (!session || !(session as any).user) {
     redirect("/feed");

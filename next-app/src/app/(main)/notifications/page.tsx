@@ -3,6 +3,7 @@ import SessionCheck from "@/components/SessionCheck";
 import BlurFade from "@/components/ui/blur-fade";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { AuthOptions } from "@/lib/auth";
 import { formatDateToHrsAgo } from "@/lib/date";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Heart, UserIcon } from "lucide-react";
@@ -19,7 +20,7 @@ const NotificationIcon = ({ type }: { type: string }) => {
 };
 
 const Notifications = async () => {
-  const session = await getServerSession();
+  const session = await getServerSession(AuthOptions);
 
   if (!session || !session.user) {
     return null;

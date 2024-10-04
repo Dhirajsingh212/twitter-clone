@@ -1,12 +1,13 @@
 import { fetchUserBookmark } from "@/actions";
 import BookmarkCard from "@/components/BookmarkCard";
 import BlurFade from "@/components/ui/blur-fade";
+import { AuthOptions } from "@/lib/auth";
 import { Bookmark } from "@/types";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 const Bookmarks = async () => {
-  const session = await getServerSession();
+  const session = await getServerSession(AuthOptions);
 
   if (!session) {
     redirect("/feed");
