@@ -53,7 +53,7 @@ export default function SettingForm({
   };
 
   return (
-    <div className="lg:w-1/2 p-4 space-y-6">
+    <div className="p-4 space-y-6">
       <motion.h1
         className="text-3xl font-bold w-full"
         initial={{ opacity: 0, y: -20 }}
