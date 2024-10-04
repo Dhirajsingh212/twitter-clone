@@ -34,20 +34,17 @@ export default function SummaryButton({
     try {
       setIsLoading(true);
       setIsOpen(true);
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_AI_SERVER_URL || "",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text: content }),
-        }
-      );
+      const response = await fetch("api/summary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: content }),
+      });
       const body = await response.json();
-      if (body.success) {
-        setSummaryState(body.response);
-        if (await addSummary(postId, body.response)) {
+      if (body.text) {
+        setSummaryState(body.text);
+        if (await addSummary(postId, body.text)) {
           toast.success("Saved to db");
         }
         toast.success("Summary generated");
