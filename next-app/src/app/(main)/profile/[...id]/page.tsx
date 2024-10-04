@@ -10,16 +10,24 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
+async function fetchSession() {
+  const session = await getServerSession(AuthOptions);
+  if (session?.user) {
+    return session.user.email;
+  }
+  return null;
+}
+
 const Component = async ({ params }: { params: { id: string[] } }) => {
   const userDetails = await fetchUserDetailsById(Number(params.id[0]));
   const userPosts = await fetchUserAllPostById(Number(params.id[0]));
-  const session = await getServerSession(AuthOptions);
+  const email = await fetchSession();
 
   if (!userDetails) {
     return <div className="mx-auto">No user found.</div>;
   }
 
-  if (session && (session?.user as any).email === userDetails.email) {
+  if (email === userDetails.email) {
     redirect("/profile");
   }
 

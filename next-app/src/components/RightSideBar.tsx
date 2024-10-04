@@ -1,7 +1,7 @@
 import { fetchTopUsers } from "@/actions";
 import { Topuser } from "@/types";
-import SearchBar from "./SearchBar";
 import TopUsers from "./TopUsers";
+import SearchBar from "./SearchBar";
 
 const RightSideBar = async () => {
   const topUsersData: Topuser[] = await fetchTopUsers();

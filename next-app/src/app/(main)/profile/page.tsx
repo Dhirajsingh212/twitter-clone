@@ -8,17 +8,20 @@ import { profileDefualtImage1 } from "@/resource";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+
+async function fetchSession() {
+  const session = await getServerSession(AuthOptions);
+  if (session?.user) {
+    return session.user.email;
+  }
+  return null;
+}
 
 export default async function FullXProfile() {
-  const session = await getServerSession(AuthOptions);
+  const email = await fetchSession();
 
-  if (!session || !(session as any).user) {
-    redirect("/feed");
-  }
-
-  const userDetails = await fetchUserDetails((session as any).user.email);
-  const userPosts = await fetchUserAllPost((session as any).user.email);
+  const userDetails = await fetchUserDetails(email || "");
+  const userPosts = await fetchUserAllPost(email || "");
 
   return (
     <div className="flex flex-col h-[90vh] no-scrollbar overflow-y-scroll">

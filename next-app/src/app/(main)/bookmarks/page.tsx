@@ -4,16 +4,18 @@ import BlurFade from "@/components/ui/blur-fade";
 import { AuthOptions } from "@/lib/auth";
 import { Bookmark } from "@/types";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+
+async function fetchSession() {
+  const session = await getServerSession(AuthOptions);
+  if (session?.user) {
+    return session.user.email;
+  }
+  return null;
+}
 
 const Bookmarks = async () => {
-  const session = await getServerSession(AuthOptions);
-
-  if (!session) {
-    redirect("/feed");
-  }
-
-  const bookmarkData = await fetchUserBookmark((session as any).user.email);
+  const email = await fetchSession();
+  const bookmarkData = await fetchUserBookmark(email || "");
 
   return (
     <div className="overflow-y-scroll h-[90vh] no-scrollbar w-full">

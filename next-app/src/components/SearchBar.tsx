@@ -1,36 +1,76 @@
 "use client";
-import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
-import { Input } from "./ui/input";
 
-const SearchBar = () => {
-  const [text, setText] = useState<string>("");
-  const [query] = useDebounce(text, 500);
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Search } from "lucide-react";
+import { useDebounce } from "use-debounce";
+import { useRouter } from "next/navigation";
+
+export default function SearchBar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [query] = useDebounce(searchQuery, 500);
   const router = useRouter();
 
   useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "k") {
+        event.preventDefault();
+        setIsOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!query) {
       router.push("/feed");
     } else {
-      router.push(`/feed?search=${query}`);
+      router.push(`/feed?search=${encodeURIComponent(query)}`);
     }
-  }, [query, router]);
+    setIsOpen(false);
+  };
 
   return (
-    <div>
-      <Search className=" absolute left-2 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-      <Input
-        value={text}
-        onChange={(e) => {
-          setText(e.target.value);
-        }}
-        placeholder="Search"
-        className="pl-8 rounded-full bg-gray-100 dark:bg-zinc-800 focus-visible:ring-0 border-gray-200 dark:border-gray-800"
-      />
-    </div>
+    <>
+      <Button
+        variant="outline"
+        className="w-full justify-start text-muted-foreground"
+        onClick={() => setIsOpen(true)}
+      >
+        <Search className="mr-2 h-4 w-4" />
+        Press Ctrl + K to search...
+      </Button>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-[425px] dark:bg-black dark:text-white bg-white">
+          <DialogHeader>
+            <DialogTitle>Search</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <Input
+              type="text"
+              placeholder="Type to search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-black dark:text-white rounded-t-md focus:outline-none focus:ring-0 focus-visible:ring-0 sm:text-sm"
+            />
+            <Button type="submit">Search</Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
-};
-
-export default SearchBar;
+}

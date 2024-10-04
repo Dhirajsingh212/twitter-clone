@@ -19,16 +19,18 @@ const NotificationIcon = ({ type }: { type: string }) => {
   }
 };
 
-const Notifications = async () => {
+async function fetchSession() {
   const session = await getServerSession(AuthOptions);
-
-  if (!session || !session.user) {
-    return null;
+  if (session?.user) {
+    return session.user.email;
   }
+  return null;
+}
 
-  const allNotifications = await fetchNotificationByEmail(
-    (session.user as any).email
-  );
+const Notifications = async () => {
+  const email = await fetchSession();
+
+  const allNotifications = await fetchNotificationByEmail(email || "");
 
   return (
     <SessionCheck>

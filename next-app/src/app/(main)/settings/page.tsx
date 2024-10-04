@@ -4,14 +4,18 @@ import SettingForm from "@/components/SettingForm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AuthOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+
+async function fetchSession() {
+  const session = await getServerSession(AuthOptions);
+  if (session?.user) {
+    return session.user.email;
+  }
+  return null;
+}
 
 const Settings = async () => {
-  const session = await getServerSession(AuthOptions);
-  if (!session || !session.user) {
-    redirect("/feed");
-  }
-  const userDetails = await fetchUserDetails((session.user as any).email);
+  const email = await fetchSession();
+  const userDetails = await fetchUserDetails(email || "");
   return (
     <SessionCheck
       Fallback={
