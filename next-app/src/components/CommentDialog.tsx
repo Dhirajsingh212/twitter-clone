@@ -61,7 +61,7 @@ export default function CommentDialog({
           <span className="pl-2">{commentCount}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white text-black dark:bg-black dark:text-white">
+      <DialogContent className="max-w-[280px] rounded-xl sm:max-w-[425px] bg-white text-black dark:bg-black dark:text-white">
         <DialogHeader>
           <DialogTitle>Add a comment</DialogTitle>
         </DialogHeader>

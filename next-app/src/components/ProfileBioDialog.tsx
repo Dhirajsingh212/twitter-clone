@@ -104,7 +104,7 @@ export default function ProfileBioDialog(props: ProfileBioInputs) {
       <DialogTrigger asChild>
         <Button variant="default">Edit X Profile</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] dark:bg-black dark:border dark:text-white  shadow-2xl bg-white">
+      <DialogContent className="max-w-[280px] rounded-xl sm:max-w-[425px] dark:bg-black dark:border dark:text-white  shadow-2xl bg-white">
         <DialogHeader>
           <DialogTitle>Edit X Profile</DialogTitle>
           <DialogDescription>

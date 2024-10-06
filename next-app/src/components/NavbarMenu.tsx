@@ -21,7 +21,7 @@ export function NavbarMenu() {
           <Menu className="h-6 w-6" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="lg:hidden w-56">
+      <DropdownMenuContent className="lg:hidden w-40">
         {NavbarItems.map((element, index) => {
           if (
             element.text === "Profile" ||

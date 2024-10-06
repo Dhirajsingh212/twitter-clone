@@ -14,9 +14,9 @@ services:
     container_name: db
     restart: always
     environment:
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
-      - POSTGRES_DB=${DB_NAME:-mydb}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
@@ -25,13 +25,19 @@ services:
   app:
     build:
       context: ./next-app
+      dockerfile: Dockerfile
+      args:
+        - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydb
     container_name: app
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-mydb}
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydb
+      - NEXTAUTH_URL="http://localhost:3000"
+      - NEXTAUTH_SECRET=secret
+      - JWT_SECRET=secret
     volumes:
       - ./next-app:/app
       - /app/node_modules

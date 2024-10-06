@@ -55,7 +55,7 @@ export default function SearchBar() {
         Press Ctrl + K to search...
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[425px] dark:bg-black dark:text-white bg-white">
+        <DialogContent className="max-w-[280px] rounded-xl sm:max-w-[425px] dark:bg-black dark:text-white bg-white">
           <DialogHeader>
             <DialogTitle>Search</DialogTitle>
           </DialogHeader>

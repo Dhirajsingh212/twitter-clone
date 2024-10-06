@@ -74,7 +74,7 @@ const PostsCard = ({
         <LikeButton postId={id} likeCount={_count.likes} allLikes={likes} />
         <CommentDialog postId={id} commentCount={_count.comments} />
         <SessionCheck
-          Fallback={<Skeleton className="w-full min-h-10 rounded-sm" />}
+          Fallback={<Skeleton className="w-10 min-h-10 rounded-sm" />}
         >
           <BookmarkButton postId={id} allBookmarks={bookmarks} />
         </SessionCheck>

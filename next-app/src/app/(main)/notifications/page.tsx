@@ -34,7 +34,7 @@ const Notifications = async () => {
 
   return (
     <SessionCheck>
-      <div className="py-2 rounded-lg px-4">
+      <div className="py-2 rounded-lg sm:px-4">
         <Card className="w-full max-w-3xl mx-auto py-4">
           <CardContent>
             <ScrollArea className="h-[76vh]">
@@ -45,7 +45,7 @@ const Notifications = async () => {
                 {allNotifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className="flex items-start space-x-4 mb-4 p-4 hover:bg-accent rounded-lg transition-colors"
+                    className="flex items-start space-x-4 mb-4 py-4 sm:p-4 hover:bg-accent rounded-lg transition-colors"
                   >
                     <div className="flex-1 space-y-1">
                       <div className="flex items-center">
