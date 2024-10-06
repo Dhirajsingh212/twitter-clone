@@ -31,7 +31,7 @@ export default async function PostPage({
   }
 
   return (
-    <div className="container max-w-2xl mx-auto p-2 sm:p-4 h-[90vh] overflow-y-scroll no-scrollbar">
+    <div className="container max-w-2xl sm:mx-auto sm:p-4 h-[90vh] overflow-y-scroll no-scrollbar">
       <Card className="mb-8">
         <div className="flex flex-row gap-2 items-center justify-end pr-2 pt-2">
           {singlePost && (
@@ -70,7 +70,7 @@ export default async function PostPage({
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-xl mb-4 flex-wrap break-words">
+          <p className="text-lg sm:text-xl mb-4 flex-wrap break-words">
             {singlePost && singlePost.content}
           </p>
         </CardContent>
