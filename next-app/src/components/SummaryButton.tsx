@@ -49,7 +49,7 @@ export default function SummaryButton({
       const body = response.data.summary_text;
 
       if (!body) {
-        toast.error("Failed to fetch");
+        toast.error("Failed to fetch summary.");
         return;
       }
 
