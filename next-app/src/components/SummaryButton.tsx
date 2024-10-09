@@ -44,7 +44,7 @@ export default function SummaryButton({
 
       console.log(response);
 
-      if (response.statusText != "OK") {
+      if (response.status !== 200) {
         throw new Error("Error fetching data:");
       }
 
