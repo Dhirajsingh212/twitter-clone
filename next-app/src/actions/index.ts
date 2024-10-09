@@ -484,6 +484,9 @@ export async function addSummary(postId: number, summary: string) {
 
 export async function fetchSinglePostById(postId: number) {
   try {
+    if (!postId) {
+      return null;
+    }
     const singlePost = await prisma.tweet.findFirst({
       where: {
         id: postId,

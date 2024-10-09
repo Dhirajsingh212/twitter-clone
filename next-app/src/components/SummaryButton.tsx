@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import axios from "axios";
 import { Lightbulb } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -18,9 +19,9 @@ export default function SummaryButton({
   postId,
   content,
 }: {
-  summary?: string;
+  summary: string;
   postId: number;
-  content?: string;
+  content: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [summaryState, setSummaryState] = useState(summary);
@@ -34,23 +35,28 @@ export default function SummaryButton({
     try {
       setIsLoading(true);
       setIsOpen(true);
-      const response = await fetch("api/summary", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: content }),
+      const response = await axios.post("/api/summary", {
+        text: content,
       });
-      const body = await response.json();
-      if (body.text) {
-        setSummaryState(body.text);
-        if (await addSummary(postId, body.text)) {
-          toast.success("Saved to db");
-        }
-        toast.success("Summary generated");
-      } else {
-        toast.error("Failed to fetch");
+
+      if (response.statusText != "OK") {
+        throw new Error("Error fetching data:");
       }
+
+      const body = response.data.summary_text;
+
+      if (!body) {
+        toast.error("Failed to fetch");
+        return;
+      }
+
+      setSummaryState(body);
+
+      if (await addSummary(postId, body)) {
+        toast.success("Saved to db");
+      }
+
+      toast.success("Summary generated");
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong");

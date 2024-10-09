@@ -2,17 +2,22 @@
 import { cn } from "@/lib/utils";
 import { NavbarItems } from "@/resource";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import LogoutButton from "./LogoutButton";
 import { NavbarMenu } from "./NavbarMenu";
 import SessionCheck from "./SessionCheck";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
+import toast from "react-hot-toast";
 
 const LeftNavbar = () => {
   const pathName = usePathname();
+  const session = useSession();
+  const router = useRouter();
+
   return (
     <aside className="lg:w-1/4 lg:pr-4 mb-4 lg:mb-0">
       <nav className="flex lg:flex-col justify-between lg:justify-start lg:space-y-4">
@@ -71,20 +76,25 @@ const LeftNavbar = () => {
 
           <LogoutButton />
 
-          <Link href="/feed">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <Button
+              onClick={() => {
+                if (session?.data?.user) {
+                  router.push("/feed");
+                } else {
+                  toast.error("Login first.");
+                }
+              }}
+              className="w-full mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold"
+              size="lg"
             >
-              <Button
-                className="w-full mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold"
-                size="lg"
-              >
-                Post
-              </Button>
-            </motion.div>
-          </Link>
+              Post
+            </Button>
+          </motion.div>
         </div>
 
         <div className="flex flex-row gap-2 items-center lg:hidden">

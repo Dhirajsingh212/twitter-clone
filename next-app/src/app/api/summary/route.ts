@@ -35,9 +35,12 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ inputs: text }),
     });
 
-    const res = await response.json();
+    const data = await response.json();
 
-    return NextResponse.json({ text: res[0].summary_text }, { status: 200 });
+    return NextResponse.json(
+      { summary_text: data[0].summary_text },
+      { status: 200 }
+    );
   } catch (err) {
     return NextResponse.json(
       { error: "Internal Server Error" },
