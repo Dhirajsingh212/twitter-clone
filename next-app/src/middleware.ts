@@ -2,7 +2,13 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/profile", "/bookmarks", "/notifications", "/settings"],
+  matcher: [
+    "/profile",
+    "/bookmarks",
+    "/notifications",
+    "/settings",
+    "/api/summary",
+  ],
 };
 
 export default withAuth(async (req) => {
