@@ -46,7 +46,7 @@ export default function SummaryButton({
         throw new Error("Error fetching data:");
       }
 
-      const body = response.data.summary_text;
+      const body = response.summary_text;
 
       if (!body) {
         toast.error("Failed to fetch summary.");
