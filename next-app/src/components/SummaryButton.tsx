@@ -35,9 +35,12 @@ export default function SummaryButton({
     try {
       setIsLoading(true);
       setIsOpen(true);
-      const response = await axios.post("/api/summary", {
-        text: content,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/summary`,
+        {
+          text: content,
+        }
+      );
 
       if (response.statusText != "OK") {
         throw new Error("Error fetching data:");
